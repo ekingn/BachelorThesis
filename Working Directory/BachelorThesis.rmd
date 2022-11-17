@@ -1,0 +1,202 @@
+---
+title: " "
+output:
+  pdf_document:
+    # citation_package: natbib
+    # number_sections: TRUE
+    # keep_tex: TRUE
+bibliography: bib.bib
+link-citations: TRUE
+csl: Chicago.csl
+geometry: "left  =  2cm, right  =  2cm, top  =  2.5cm, bottom  =  2.5cm"
+fontsize: 12pt
+header-includes:
+  - \usepackage{enumitem}
+  - \usepackage{float}
+  - \floatplacement{figure}{H}
+  - \usepackage{sectsty}
+  - \usepackage{paralist}
+  - \usepackage{setspace}\spacing{1.5}
+  - \usepackage{fancyhdr}
+  - \usepackage{lastpage}
+  - \usepackage{dcolumn}
+  - \usepackage{ragged2e}
+  - \usepackage{graphicx}
+  - \usepackage{amsmath}
+  - \usepackage[nottoc, numbib]{tocbibind}
+  - \usepackage{wrapfig}
+fig_caption: true 
+fig_crop: true
+highlight: "tango"
+linkcolor: blue
+urlcolor: blue
+citecolor: black
+df_print: kable
+---
+
+```{r include = FALSE}
+knitr::opts_chunk$set(
+	echo  =  FALSE,
+	fig.show  =  TRUE,
+	message  =  FALSE,
+	warning  =  FALSE,
+	fig.pos = 'H'
+)
+options(tinytex.verbose = TRUE)
+```
+
+```{r}
+def.chunk.hook  <- knitr::knit_hooks$get("chunk")
+knitr::knit_hooks$set(chunk  =  function(x, options) {
+  x <- def.chunk.hook(x, options)
+  ifelse(options$size  !=   "normalsize", paste0("\n \\", options$size,"\n\n", x, "\n\n \\normalsize"), x)
+})
+```
+
+```{r}
+pacman::p_load(pacman, tidyverse, GADMTools)
+```
+
+<style>
+body {
+text-align: justify}
+</style>
+
+\allsectionsfont{\centering}
+\subsectionfont{\centering}
+\subsubsectionfont{\justifying}
+
+\pagenumbering{gobble}
+
+\begin{FlushRight}
+
+\vspace{0cm}
+
+```{r uni_logo, out.width = "50%"}
+knitr::include_graphics("LogoUni.png")
+```
+
+\end{FlushRight}
+
+\begin{centering}
+
+\vspace{4,5cm}
+
+\Large
+
+\doublespacing
+{\bf MODELING EXTREME PRECIPITATION EVENTS\\A BACHELOR THESIS FOR THE DEGREE OF BACHELOR OF SCIENCE} 
+\singlespacing
+
+{\ Wintersemester 2022}
+
+\normalsize
+\singlespacing
+
+By
+
+\Large
+\singlespacing
+{\ Ekin Gülhan}
+
+\end{centering}
+
+\begin{FlushLeft}
+
+\vspace{3,5cm}
+
+\Large
+\singlespacing
+\normalsize
+Guardian: Dr. Isa Marques \\Enrolment number: 21675680 \\e-mail: ekin.guelhan(at)stud.uni-goettingen.de \\Address: Hannoversche Straße 134, 37077 Göttingen \\Date: `r Sys.Date()` 
+
+\end{FlushLeft}
+
+\newpage 
+
+\centering
+\raggedright
+\hypersetup{linkcolor = black}
+\tableofcontents
+
+\newcounter{savepage}
+\cleardoublepage
+\pagenumbering{Roman}
+
+\newpage
+
+\cleardoublepage
+\setcounter{savepage}{\arabic{page}}
+\pagenumbering{arabic}
+
+```{r}
+options(scipen = 999, OutDec  =  ",")
+```
+
+\justifying
+
+<!-- Here follows code for preparing the expose as a whole and the introduction in particular -->
+```{r}
+# getwd()
+
+load("WeatherGermany.rda")
+
+WeatherGermany$id = as.numeric(WeatherGermany$id)
+
+ListOfAllWeatherStations = data.frame("Names of weather stations" = unique(WeatherGermany$name))
+
+ListOfAllUniqueIDs = data.frame(unique(data.frame(WeatherGermany$id)))
+
+ListOfAllUniqueCoordinates = data.frame(unique(data.frame(WeatherGermany$lon,WeatherGermany$lat)))
+WeatherGermany$index = as.numeric(factor(WeatherGermany$name))
+
+colnames(ListOfAllUniqueCoordinates) = c("longitude","latitude")
+
+WeatherGermany = WeatherGermany %>% relocate(index,.before = id)
+
+WeatherGermany = WeatherGermany[order(WeatherGermany$name),]
+
+WeatherGermany = subset(WeatherGermany, select = -c(id) )
+
+WeatherGermany = WeatherGermany %>%
+   mutate(across(where(is.numeric), ~na_if(., -999)))
+
+NumberOfObservationsPerWeatherStation = data.frame(count(WeatherGermany, index))
+
+MaximumYear = max(WeatherGermany$year, na.rm = TRUE)
+
+MinimumYear = min(WeatherGermany$year, na.rm = TRUE)
+
+RangeOfSpatialCoverage = MaximumYear - MinimumYear
+```
+
+```{r}
+{
+DistributionNumberOfObservations = summary(NumberOfObservationsPerWeatherStation$n)
+}
+
+{
+ExtremePrecipitationClassificationBoundaries = data.frame("Classification Boundaries"= quantile(WeatherGermany$rain,probs = c(0.05,0.95),na.rm = TRUE))
+}
+
+{
+WeatherGermany = 
+  WeatherGermany %>% mutate(ExtremePrecipitationEvent = 
+                              case_when(WeatherGermany$rain >= ExtremePrecipitationClassificationBoundaries[2,1]  ~ 1,
+                                        WeatherGermany$rain >= ExtremePrecipitationClassificationBoundaries[1,1] & WeatherGermany$rain < ExtremePrecipitationClassificationBoundaries[2,1] ~ 0))
+}
+
+NumberOfObservationsPerWeatherStation = data.frame(count(WeatherGermany, index))
+
+```
+
+
+\newpage
+
+# Session Info
+
+```{r}
+sessionInfo()
+```
+
+\newpage
