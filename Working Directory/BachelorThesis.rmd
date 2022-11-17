@@ -13,7 +13,6 @@ fontsize: 12pt
 header-includes:
   - \usepackage{enumitem}
   - \usepackage{float}
-  - \floatplacement{figure}{H}
   - \usepackage{sectsty}
   - \usepackage{paralist}
   - \usepackage{setspace}\spacing{1.5}
@@ -25,6 +24,7 @@ header-includes:
   - \usepackage{amsmath}
   - \usepackage[nottoc, numbib]{tocbibind}
   - \usepackage{wrapfig}
+  - \floatplacement{figure}{H}
 fig_caption: true 
 fig_crop: true
 highlight: "tango"
@@ -85,7 +85,7 @@ knitr::include_graphics("LogoUni.png")
 \Large
 
 \doublespacing
-{\bf MODELING EXTREME PRECIPITATION EVENTS\\A BACHELOR THESIS FOR THE DEGREE OF BACHELOR OF SCIENCE} 
+{\bf MODELING EXTREME PRECIPITATION EVENTS\\A THESIS PAPER FOR THE DEGREE OF \\BACHELOR OF SCIENCE} 
 \singlespacing
 
 {\ Wintersemester 2022}
@@ -108,7 +108,7 @@ By
 \Large
 \singlespacing
 \normalsize
-Guardian: Dr. Isa Marques \\Enrolment number: 21675680 \\e-mail: ekin.guelhan(at)stud.uni-goettingen.de \\Address: Hannoversche Straße 134, 37077 Göttingen \\Date: `r Sys.Date()` 
+Supervisor: Dr. Isa Marques \\Enrolment number: 21675680 \\e-mail: ekin.guelhan(at)stud.uni-goettingen.de \\Address: Hannoversche Straße 134, 37077 Göttingen \\Date: `r Sys.Date()` 
 
 \end{FlushLeft}
 
@@ -139,46 +139,63 @@ options(scipen = 999, OutDec  =  ",")
 ```{r}
 # getwd()
 
+# Load the data
 load("WeatherGermany.rda")
 
+# reformat the id column as numeric values
 WeatherGermany$id = as.numeric(WeatherGermany$id)
 
+# Create a list of all weather stations
 ListOfAllWeatherStations = data.frame("Names of weather stations" = unique(WeatherGermany$name))
 
+# Create a list of all unique ids of the german weather stations
 ListOfAllUniqueIDs = data.frame(unique(data.frame(WeatherGermany$id)))
 
+# Create a list of unique pairs of angular coordinates, where each pair represents a weather station 
 ListOfAllUniqueCoordinates = data.frame(unique(data.frame(WeatherGermany$lon,WeatherGermany$lat)))
+
+# Change format of the index column to factor/categorical
 WeatherGermany$index = as.numeric(factor(WeatherGermany$name))
 
+# Change the name of the columns of the list of unique pairs of coordinates
 colnames(ListOfAllUniqueCoordinates) = c("longitude","latitude")
 
+# Relocate the index column before the id column 
 WeatherGermany = WeatherGermany %>% relocate(index,.before = id)
 
+# Order the Data based the values of the name column in an increasing way
 WeatherGermany = WeatherGermany[order(WeatherGermany$name),]
 
+# Delete the id column, as the index column is a better substitute for it 
 WeatherGermany = subset(WeatherGermany, select = -c(id) )
 
+# Substitute all values "-999" as NAs, since this number is indeed code for not available
 WeatherGermany = WeatherGermany %>%
    mutate(across(where(is.numeric), ~na_if(., -999)))
 
+# Count the number of observations of daily resolution each weather station made
 NumberOfObservationsPerWeatherStation = data.frame(count(WeatherGermany, index))
 
+# Compute the latest year of observation among all the weather stations
 MaximumYear = max(WeatherGermany$year, na.rm = TRUE)
 
+# Compute the earliest year of observation among all the weather stations
 MinimumYear = min(WeatherGermany$year, na.rm = TRUE)
 
+# Compute the spatial coverage among all the weather stations
 RangeOfSpatialCoverage = MaximumYear - MinimumYear
-```
 
-```{r}
+# Compute the empirical distribution of the number of observations, meaning the 4 quartiles 
 {
 DistributionNumberOfObservations = summary(NumberOfObservationsPerWeatherStation$n)
 }
 
+# Compute the boundaries for the classification of an PE as an EPE in terms of the 5th and 95th percentile of precipitation height
 {
 ExtremePrecipitationClassificationBoundaries = data.frame("Classification Boundaries"= quantile(WeatherGermany$rain,probs = c(0.05,0.95),na.rm = TRUE))
 }
 
+# Create a new variable that indicates the occurence of an EPE based on the arbitrary boundaries from above and the data on precipitation heigt
 {
 WeatherGermany = 
   WeatherGermany %>% mutate(ExtremePrecipitationEvent = 
@@ -186,7 +203,9 @@ WeatherGermany =
                                         WeatherGermany$rain >= ExtremePrecipitationClassificationBoundaries[1,1] & WeatherGermany$rain < ExtremePrecipitationClassificationBoundaries[2,1] ~ 0))
 }
 
+# Create a table that recounts that contrasts the number of observations of a weather stations with its' index number
 NumberOfObservationsPerWeatherStation = data.frame(count(WeatherGermany, index))
+
 
 ```
 
