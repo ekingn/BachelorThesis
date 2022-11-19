@@ -1,4 +1,16 @@
-#Lists all unique entities as a data frane
+# Save the entire workspace
+save.image(file = "my_work_space.RData")
+
+# Load the workspace from a file, that was saved previously
+load("my_work_space.RData")
+
+# Save an object of the workspace to a file 
+saveRDS(object, file = "my_data.rds")
+
+# Load a single R object from a file 
+readRDS(file = "my_data.rds")
+
+# Lists all unique entities as a data frane
 ListOfEntities = data.frame("Entity names" = unique(data$Entities))  
 
 # Omit the rows, that contain NAs

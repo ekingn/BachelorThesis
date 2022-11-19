@@ -135,7 +135,6 @@ options(scipen = 999, OutDec  =  ",")
 
 \justifying
 
-<!-- Here follows code for preparing the expose as a whole and the introduction in particular -->
 ```{r}
 # getwd()
 
