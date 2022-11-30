@@ -45,6 +45,19 @@ knitr::opts_chunk$set(
 options(tinytex.verbose = TRUE)
 ```
 
+```{r Function that enables individualized boxplots}
+IndividualizedBoxplotQuantiles <- function(x) {
+  r <- quantile(x, probs = c(0.05, 0.25, 0.5, 0.75, 0.95))
+  names(r) <- c("ymin", "lower", "middle", "upper", "ymax")
+  r
+}
+
+DefinitionOfOutliers = function(x) 
+  {
+  subset(x, quantile(x,0.95) < x)
+  }
+```
+
 ```{r}
 def.chunk.hook  <- knitr::knit_hooks$get("chunk")
 knitr::knit_hooks$set(chunk  =  function(x, options) {
@@ -54,7 +67,7 @@ knitr::knit_hooks$set(chunk  =  function(x, options) {
 ```
 
 ```{r}
-pacman::p_load(pacman, tidyverse, GADMTools, cowplot)
+pacman::p_load(pacman, tidyverse, GADMTools, cowplot, car)
 ```
 
 <style>
@@ -374,6 +387,7 @@ DistributionRainDifferentTemporalResolutions = data.frame("QuantileValueDailyRes
 DistributionExtremeRainDifferentTemporalResolutions = data.frame("QuantileValueDailyResolution" = quantile(ExtremePrecipitationHeightsDailyResolution$ExtremePrecipitationHeights.rain, probs = c(0,0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95,1), na.rm = TRUE), "QuantileValueMonthlyResolution" = quantile(ExtremePrecipitationHeightsMonthlyResolution$ExtremePrecipitationHeights.PrecipitationHeightInMillimetre, probs = c(0,0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95,1), na.rm = TRUE), "QuantileValueAnnualResolution" = quantile(ExtremePrecipitationHeightsAnnualResolution$ExtremePrecipitationHeights.AnnualPrecipitationHeightInMillimetre, probs = c(0,0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95,1), na.rm = TRUE))
 ```
 
+\newpage
 
 # Barplots of the frequencies of precipitation heights / extreme precipitation heights for different temporal resolutions
 
@@ -432,11 +446,104 @@ BarplotsOfFrequenciesOfPrecipitationHeight = plot_grid(PlotAsBarsFrequencyOfRain
                                                        align  =  "H", scale=1)
 BarplotsOfFrequenciesOfPrecipitationHeight 
 ```
+\newpage 
+
+# On the distribution of elevation levels within the data 
+
+```{r fig.height=6, fig.width=12}
+# Compute specific quantile values for the distribution of elevation levels 
+QuantileValuesOfElevation = data.frame("QuantileValues" = round(x= quantile(WeatherDataDailyResolution$alt, c(0,0.05,0.25,0.5,0.75,0.95,1)), 2))
+QuantileValuesOfElevation
+
+# Compute the frequency of each level of elevation within the data
+NumberOfObservationsPerElevationLevel = 
+  data.frame(count(WeatherDataDailyResolution,WeatherDataDailyResolution$alt))
+colnames(NumberOfObservationsPerElevationLevel) = c("LevelOfElevation(alt)","Frequency")
+
+# Visualize the distribution of the elevation levels as a barplot
+PlotAsBarsFrequencyOfElevationLevels = qplot(x = WeatherDataDailyResolution$alt, 
+                                             fill = I("white"), color = I("black"), 
+                                             xlab = "Elevation Level",
+                                             ylab = paste0("Absolute\nFrequency"),
+                                             breaks = c(seq(from=0, to=3000, by = 50 )),
+                                             main = "Frequency of Elevation Levels") + expand_limits(x=0, y=0) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  scale_x_continuous(breaks = c(seq(from=-10, to=3000, by=50))) + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ".", scientific = FALSE))
+PlotAsBarsFrequencyOfElevationLevels
+
+# Compute the distribution of the elevation levels as a boxplot 
+BoxplotOfElevationLevels = ggplot(data = WeatherDataDailyResolution) + aes(x="", y=alt) + stat_summary(fun.data = IndividualizedBoxplotQuantiles, geom="boxplot") +
+  stat_summary(fun.y = DefinitionOfOutliers, geom="point") + 
+  ggtitle("A boxplot of the elevation levels") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold")) + 
+  scale_y_continuous(breaks = c(seq(from=0, to=3100, by=100)) ,labels=function(x) format(x, big.mark = ".", scientific = FALSE)) + 
+  xlab("") + 
+  ylab("Elevation levels") +
+  coord_cartesian(ylim = c(0,3100)) 
+BoxplotOfElevationLevels
+```
+
+# Linear Regression for the purpose of evaluating the residuals 
+
+```{r}
+# Estimate a linear regression model 
+ResultsLinearRegression = lm(rain~T+sun+year+month+day+alt+lon+lat, data = WeatherDataDailyResolution)
+summary(ResultsLinearRegression$residuals)
+
+# Compute the standardized residuals
+StandardizedResidualsLinearRegression = rstandard(ResultsLinearRegression)
+
+# Get an overview of the distribution of the standardized residuals 
+# summary(StandardizedResidualsLinearRegression)
+
+# Determine the 5th and 95th percentile of the distribution of standardized residuals 
+quantile(StandardizedResidualsLinearRegression,0.05)
+quantile(StandardizedResidualsLinearRegression,0.95)
+
+PlotAsBarsFrequencyOfStandardizedResidualsLinearRegression = qplot(x = StandardizedResidualsLinearRegression, 
+                                                       fill = I("white"), color = I("black"), 
+                                                       xlab = "Residuals",
+                                                       ylab = paste0("Absolute\nFrequency"),
+                                                       breaks = c(seq(from=-2, to=5, by = 0.1 )),
+                                                       main = "Distribution of residuals") + expand_limits(x=0, y=0) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  scale_x_continuous(breaks = c(seq(from=-2, to=5, by=0.1))) + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ".", scientific = FALSE))
+
+PlotAsBarsFrequencyOfStandardizedResidualsLinearRegression
+
+```
+
+## Evaluating the assumption of gaussian-distributed random errorterms
+
+```{r}
+PlotAsBarsFrequencyOfStandardizedResidualsLinearRegression = qplot(x = StandardizedResidualsLinearRegression, 
+                                                       fill = I("white"), color = I("black"), 
+                                                       xlab = "Residuals",
+                                                       ylab = paste0("Absolute\nFrequency"),
+                                                       breaks = c(seq(from=-2, to=5, by = 0.1 )),
+                                                       main = "Distribution of residuals") + expand_limits(x=0, y=0) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) + 
+  scale_x_continuous(breaks = c(seq(from=-2, to=5, by=0.1))) + 
+  scale_y_continuous(labels=function(x) format(x, big.mark = ".", scientific = FALSE))
+
+PlotAsBarsFrequencyOfStandardizedResidualsLinearRegression
+
+plot(ResultsLinearRegression)
+```
+
+## Testing for homoscedasticity 
+
+```{r}
+# Unable to conduct the Durbin-Watson-Test due to vast requirement of working memory 
+# durbinWatsonTest(ResultsLinearRegression)
+```
 
 
 
 ```{r}
-save.image()
+# save.image()
 ```
 
 
