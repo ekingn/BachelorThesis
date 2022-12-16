@@ -26,3 +26,9 @@ BoxplotOfElevationLevels = ggplot(data = WeatherDataDailyResolution) + aes(x="",
   xlab("") + 
   ylab("Elevation levels") +
   coord_cartesian(ylim = c(0,3100)) 
+
+# Print the boxplot of the elevation levels
+BoxplotOfElevationLevels
+
+# Give a summary of the elevation levels 
+summary(WeatherDataDailyResolution$alt

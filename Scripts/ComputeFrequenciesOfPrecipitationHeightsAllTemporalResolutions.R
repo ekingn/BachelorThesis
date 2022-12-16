@@ -56,3 +56,9 @@ colnames(NumberOfObservationsPerPrecipitationHeightAnnualResolution) = c("Precip
 colnames(NumberOfObservationsPerExtremePrecipitationHeightAnnualResolution) = c("ExtremePrecipitationHeight","Frequency")
 }
 
+# Distribution of precipitation heights: daily, monthly and annual resolution
+DistributionRainDifferentTemporalResolutions = data.frame("QuantileValueDailyResolution" = quantile(WeatherDataDailyResolution$rain, probs = c(0,0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95,1), na.rm = TRUE), "QuantileValueMonthlyResolution" = quantile(WeatherDataMonthlyResolution$PrecipitationHeightInMillimetre, probs = c(0,0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95,1), na.rm = TRUE), "QuantileValueAnnualResolution" = quantile(WeatherDataAnnualResolution, probs = c(0,0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95,1), na.rm = TRUE))
+
+# Distribution of extreme precipitation heights: daily, monthly and annual resolution
+DistributionExtremeRainDifferentTemporalResolutions = data.frame("QuantileValueDailyResolution" = quantile(ExtremePrecipitationHeightsDailyResolution$ExtremePrecipitationHeights.rain, probs = c(0,0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95,1), na.rm = TRUE), "QuantileValueMonthlyResolution" = quantile(ExtremePrecipitationHeightsMonthlyResolution$ExtremePrecipitationHeights.PrecipitationHeightInMillimetre, probs = c(0,0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95,1), na.rm = TRUE), "QuantileValueAnnualResolution" = quantile(ExtremePrecipitationHeightsAnnualResolution$ExtremePrecipitationHeights.AnnualPrecipitationHeightInMillimetre, probs = c(0,0.05,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.95,1), na.rm = TRUE))
+
