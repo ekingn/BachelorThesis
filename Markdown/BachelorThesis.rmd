@@ -1,0 +1,156 @@
+---
+title: " "
+output:
+  pdf_document:
+    # citation_package: natbib
+    # number_sections: TRUE
+    # keep_tex: TRUE
+bibliography: bib.bib
+link-citations: TRUE
+csl: Chicago.csl
+geometry: "left  =  2cm, right  =  2cm, top  =  2.5cm, bottom  =  2.5cm"
+fontsize: 12pt
+header-includes:
+  - \usepackage{enumitem}
+  - \usepackage{float}
+  - \usepackage{sectsty}
+  - \usepackage{paralist}
+  - \usepackage{setspace}\spacing{1.5}
+  - \usepackage{fancyhdr}
+  - \usepackage{lastpage}
+  - \usepackage{dcolumn}
+  - \usepackage{ragged2e}
+  - \usepackage{graphicx}
+  - \usepackage{amsmath}
+  - \usepackage[nottoc, numbib]{tocbibind}
+  - \usepackage{wrapfig}
+  - \floatplacement{figure}{H}
+fig_caption: true 
+fig_crop: true
+highlight: "tango"
+linkcolor: blue
+urlcolor: blue
+citecolor: black
+df_print: kable
+---
+
+```{r Enable relative path}
+library(here)
+```
+
+```{r Library packages}
+source(here("Scripts","Packages","Packages.R"))
+```
+
+```{r Default settings for all codechunks,include = FALSE}
+source(here("Scripts","Session-Related","Default-Codechunk-Settings.R"))
+```
+
+```{r Function that enables individualized boxplots}
+source(here("Scripts","Functions","Individualizing-Box-Plots.R"))
+```
+
+```{r Function that enables individual sizing}
+source(here("Scripts","Functions","Individual-Sizing-Of-Content.R"))
+```
+
+```{r Function for changing to decimal seperator}
+source(here("Scripts","Functions","Changing-Decimal-Seperator.R"))
+```
+
+<style>
+body {
+text-align: justify}
+</style>
+
+\allsectionsfont{\centering}
+\subsectionfont{\centering}
+\subsubsectionfont{\justifying}
+
+\pagenumbering{gobble}
+
+\begin{FlushRight}
+
+\vspace{0cm}
+
+```{r Uni_Logo, out.width = "50%", include = TRUE}
+knitr::include_graphics(here("Input","Images","LogoUni.png"))
+```
+
+\end{FlushRight}
+
+\begin{centering}
+
+\vspace{4,5cm}
+
+\Large
+
+\doublespacing
+{\bf MODELING EXTREME PRECIPITATION EVENTS\\A THESIS PAPER FOR THE DEGREE OF \\BACHELOR OF SCIENCE} 
+\singlespacing
+
+{\ Wintersemester 2022}
+
+\normalsize
+\singlespacing
+
+By
+
+\Large
+\singlespacing
+{\ Ekin Gülhan}
+
+\end{centering}
+
+\begin{FlushLeft}
+
+\vspace{3,5cm}
+
+\Large
+\singlespacing
+\normalsize
+Supervisor: Dr. Isa Marques \\Enrolment number: 21675680 \\e-mail: ekin.guelhan(at)stud.uni-goettingen.de \\Address: Hannoversche Straße 134, 37077 Göttingen \\Date: `r Sys.Date()` 
+
+\end{FlushLeft}
+
+\newpage 
+
+\centering
+\raggedright
+\hypersetup{linkcolor = black}
+\tableofcontents
+
+\newcounter{savepage}
+\cleardoublepage
+\pagenumbering{Roman}
+
+\newpage
+
+\cleardoublepage
+\setcounter{savepage}{\arabic{page}}
+\pagenumbering{arabic}
+
+
+<!-- ```{r} -->
+<!-- options(scipen = 999, OutDec  =  ",") -->
+<!-- ``` -->
+
+
+\justifying
+
+# Various manipulations of the orginial precipitation data of daily resolution 
+
+```{r}
+source(here("Scripts","Data-Manipulation","Initial-Data-Manipulation.R"))
+```
+
+
+\newpage
+
+# Session Info
+
+```{r}
+#sessionInfo()
+```
+
+\newpage
