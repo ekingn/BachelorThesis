@@ -1,3 +1,10 @@
+# If this code is to be executed isolatedly, as a prerequisite de-comment the following code and execute it: 
+{
+  # library(here)
+  # source(here("Scripts","Session-Related","Packages.R"))
+  # source(here("Scripts","Data-Manipulation","Initial-Data-Manipulation.R"))
+}
+
 # Daily Temporal Resolution
 {
 # Compute the 95th percentile of the daily resolution weather data

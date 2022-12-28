@@ -34,28 +34,22 @@ citecolor: black
 df_print: kable
 ---
 
-```{r Enable relative path}
+```{r Enable relative path and project package library}
 library(here)
 ```
 
 ```{r Library packages}
-source(here("Scripts","Packages","Packages.R"))
+source(here("Scripts","Session-Related","Packages.R"))
 ```
 
 ```{r Default settings for all codechunks,include = FALSE}
 source(here("Scripts","Session-Related","Default-Codechunk-Settings.R"))
 ```
 
-```{r Function that enables individualized boxplots}
+```{r Several functions}
 source(here("Scripts","Functions","Individualizing-Box-Plots.R"))
-```
-
-```{r Function that enables individual sizing}
 source(here("Scripts","Functions","Individual-Sizing-Of-Content.R"))
-```
-
-```{r Function for changing to decimal seperator}
-source(here("Scripts","Functions","Changing-Decimal-Seperator.R"))
+source(here("Scripts","Functions","Changing-Decimal-Seperator-To-Comma.R"))
 ```
 
 <style>
@@ -138,7 +132,7 @@ Supervisor: Dr. Isa Marques \\Enrolment number: 21675680 \\e-mail: ekin.guelhan(
 
 \justifying
 
-# Various manipulations of the orginial precipitation data of daily resolution 
+# Various manipulations of the orginal precipitation data of daily resolution 
 
 ```{r}
 source(here("Scripts","Data-Manipulation","Initial-Data-Manipulation.R"))
