@@ -1,3 +1,8 @@
+# Subset data through temporal filtering
+Subsetted_Data = filter(Original_Data, 
+                        year %in% c(<"some years">),
+                        month %in% c(<"some months">))
+
 # Flip the coordinates of a ggplot
 coord_flip()  
 

@@ -1,3 +1,10 @@
+# If this code is to be executed isolatedly, as a prerequisite de-comment the following code and execute it: 
+#{
+# library(here)
+# source(here("Scripts","Session-Related","Packages.R"))
+# source(here("Scripts","Data-Manipulation","Initial-Data-Manipulation.R"))
+#}
+
 # Creating a latitudinal Hovmoellerplot (Values are averaged along longitudinal degrees)
 
 ## First step: Create a regular grid of 50 spatial points and 100 temporal points 

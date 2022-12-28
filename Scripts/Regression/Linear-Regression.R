@@ -1,3 +1,10 @@
+# If this code is to be executed isolatedly, as a prerequisite de-comment the following code and execute it: 
+#{
+# library(here)
+# source(here("Scripts","Session-Related","Packages.R"))
+# source(here("Scripts","Data-Manipulation","Initial-Data-Manipulation.R"))
+#}
+
 # Estimate a linear regression model 
 ResultsLinearRegression = lm(rain~T+sun+year+month+day+alt+lon+lat, data = WeatherDataDailyResolution)
 summary(ResultsLinearRegression$residuals)
@@ -36,4 +43,4 @@ PlotAsBarsFrequencyOfStandardizedResidualsLinearRegression = qplot(x = Standardi
 plot(ResultsLinearRegression)
 
 # Unable to conduct the Durbin-Watson-Test due to vast requirement of working memory 
-durbinWatsonTest(ResultsLinearRegression)
+# durbinWatsonTest(ResultsLinearRegression)
