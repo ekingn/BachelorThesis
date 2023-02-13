@@ -1,3 +1,10 @@
+# If this code is to be executed isolatedly, as a prerequisite de-comment the following code and execute it:
+# {
+#   library(here)
+#   source(here("Scripts","Session-Related","Packages.R"))
+#   source(here("Scripts","Data-Manipulation","Initial-Data-Manipulation.R"))
+# }
+
 # Sample a random subset of the weatherstations based on their unique ID
 set.seed(1)
 RandomSampleWeatherStations = sample(ListOfAllUniqueIndexnumbers$IndexNumbers, 10)

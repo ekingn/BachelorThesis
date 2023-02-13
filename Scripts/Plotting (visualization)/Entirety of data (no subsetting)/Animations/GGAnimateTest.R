@@ -13,4 +13,4 @@ Test = ggplot(mtcars, aes(factor(cyl), mpg)) +
 animate(Test,
         renderer = 
           ffmpeg_renderer(),
-        nframes = 1000)
+        nframes = 50)
