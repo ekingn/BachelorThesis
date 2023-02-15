@@ -174,7 +174,7 @@ A specific percentile of the empirical distribution of precipitation could be us
 
 \newpage
 
-# Modelling a classifier based on a GAMM with a logit-link function as a solution to task of spatio-temporally modelling extreme precipitation
+# A classifier based on a GAMM with a logit-link for the spatio-temporal classification of EPE
 
 The following section will argue, that on a conceptual level, the problem of modelling the spatio-temporal classification of PE as EPE can be approached reasonably by building a generalized additive mixed model with a logit link function, which then is superimposed by a filtering probability threshold layer. The threshold layer superimposing the built GAMM is thereby ultimately responsible for separating the EPE from the PE based on the criteria, whether the predicted probability succeeds the threshold layer or not. 
 In this context, \textit{reasonably} refers to the fact, that by building a classifier based on a GAMM, all of the essential criteria for the model can be met. The criteria in turn follow from the general objective of this thesis, to built a classifier model that facilitates flood risk management, as follows: 
