@@ -2,53 +2,81 @@
 # {
 #   library(here)
 #   source(here("Scripts","Session-Related","Packages.R"))
-#   source(here("Scripts","Data-Manipulation","Initial-Data-Manipulation.R"))
+#   source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
 # }
 
 # Sample a random subset of the weatherstations based on their unique ID
 set.seed(1)
-RandomSampleWeatherStations = sample(ListOfAllUniqueIndexnumbers$IndexNumbers, 10)
+
+RandomSampleWeatherStations <-
+  
+  sample(Index_Lat_Lon$index, 
+         10)
 
 # Subset the Daily Precipitation Weather Data towards the random sample of weather stations
-WeatherDataDailyResolutionSubset1996 = filter(WeatherDataDailyResolution, 
+Weather_Data_Daily_ResolutionSubset1996 <- filter(Weather_Data_Daily_Resolution, 
                                           index %in% RandomSampleWeatherStations,
                                           year == 1996)
-WeatherDataDailyResolutionSubset2006 = filter(WeatherDataDailyResolution, 
+Weather_Data_Daily_ResolutionSubset2006 <- filter(Weather_Data_Daily_Resolution, 
                                               index %in% RandomSampleWeatherStations,
                                               year == 2006)
-WeatherDataDailyResolutionSubset2016 = filter(WeatherDataDailyResolution, 
+Weather_Data_Daily_ResolutionSubset2016 <- filter(Weather_Data_Daily_Resolution, 
                                               index %in% RandomSampleWeatherStations,
                                               year == 2016)
 
 # Create plots for each spatial and temporal subsets
-TemporalPlotsRainDailyResol1996 = ggplot(WeatherDataDailyResolutionSubset1996) +
-  geom_point(aes(x = CalendarDate, y = rain, 
-                 colour = Season, alpha = 0.00005,
-                 shape = Season)) + 
-  facet_wrap(~index, ncol = 5) +
+TemporalPlotsRainDailyResol1996 <-
+  
+  ggplot(Weather_Data_Daily_ResolutionSubset1996) +
+  
+  geom_point(aes(x = calendar_date, y = rain, 
+                 colour = season, alpha = 0.00005,
+                 shape = season)) + 
+  
+  facet_wrap(~index, ncol = 5) + 
+  
   xlab("Day") + 
-  ylab("Precipitation Height in millimetre (mm)") +
+  
+  ylab("Precipitation Height in millimetre (mm)") + 
+  
   theme_bw() + 
+  
   theme(panel.spacing = unit(1, "lines"))
 
-TemporalPlotsRainDailyResol2006 = ggplot(WeatherDataDailyResolutionSubset2006) +
-  geom_point(aes(x = CalendarDate, y = rain, 
-                 colour = Season, alpha = 0.00005,
-                 shape = Season)) + 
+TemporalPlotsRainDailyResol2006 <- 
+  
+  ggplot(Weather_Data_Daily_ResolutionSubset2006) +
+  
+  geom_point(aes(x = calendar_date, y = rain, 
+                 colour = season, alpha = 0.00005,
+                 shape = season)) + 
+  
   facet_wrap(~index, ncol = 5) +
+  
   xlab("Day") + 
+  
   ylab("Precipitation Height in millimetre (mm)") +
+  
   theme_bw() + 
+  
   theme(panel.spacing = unit(1, "lines"))
 
-TemporalPlotsRainDailyResol2016 = ggplot(WeatherDataDailyResolutionSubset2016) +
-  geom_point(aes(x = CalendarDate, y = rain, 
-                 colour = Season, alpha = 0.00005,
-                 shape = Season)) + 
+TemporalPlotsRainDailyResol2016 <- 
+  
+  ggplot(Weather_Data_Daily_ResolutionSubset2016) +
+  
+  geom_point(aes(x = calendar_date, y = rain, 
+                 colour = season, alpha = 0.00005,
+                 shape = season)) +
+  
   facet_wrap(~index, ncol = 5) +
+  
   xlab("Day") + 
+  
   ylab("Precipitation Height in millimetre (mm)") +
+  
   theme_bw() + 
+  
   theme(panel.spacing = unit(1, "lines"))
 
 # Print the plots as a grid
