@@ -190,15 +190,18 @@ Classical linear regression involves modelling the model response as the conditi
 \begin{align}
 \textbf{Precipitation Height} &= \mathbf{\beta_0} + \beta_1 \textbf{Mean Temperature} + \beta_2 \textbf{Altitude} \notag \\
 &\qquad + \beta_3 \textbf{Longitude} + \beta_4 \textbf{Latitude} + \beta_5 \textbf{Julian Date} + \mathbf{\epsilon}
-\end{align}
+\end{align} 
  
  
 ## Logistic Regression Models as \textit{Generalized} Linear Models
 
 The classical linear regression model can still at least predict some response from the spatial and temporal location of a PE. With changes of the model structures, it can be raised to a model with a binomially distributed binary response variable such as decisions of classification of PE as EPE. To achieve such a generalization of the linear model, first of all the error term is dropped from the right hand side, such that the response is no longer modeled as dependent on the linear predictor plus an error term, but only on the linear predictor. Instead, the response itself is modeled to consist of a variable plus an error term. In the next step the response is modelled neither a continuous nor binary variable, but as the so called log-odds (logit) of the probability, that a PE belongs to the class of EPE. This step allows for modelling a continuous response as depending on a linear predictor and is one of two pivot points of the generalization. For the final step of the generalization, both sides of the model equation - the response and the linear predictor - are supplied to the inverse the of logit link-function. As a result, the model response is now a probability value, which is modeled as dependent of the inverse of the logit link-function applied to a linear predictor. This generalization yields a probability estimation model, whose predictions or responses respectively are assumed to be binomially distributed. From here, it would only take the small step of superimposing a threshold-layer to raise the logistic regression model with its binomially distributed probability responses to a classifier model with a binomially distributed binary decision of the classification of PE as EPE as response. As a consequence of these steps of generalization, within the linear predictor the coefficients are no longer additively concatenated, which is the key condition for the application of the method of least squares to estimate the coefficients. Instead, the model (coefficients) are estimated via maximizing the model likelihood. 
 
-\center{\textbf{Logistic Regression Model}}
+\begin{center}
+\rule{1\textwidth}{0.4pt}
+\end{center}
 
+\center{\fbox{\textbf{Logistic Regression Model}}}
 
 \vspace{-35pt}
 \begin{equation}
@@ -214,7 +217,25 @@ The classical linear regression model can still at least predict some response f
 \end{equation}
 \vspace{-35pt}
 
+\center{\textbf{where}}
 
+\scalebox{1.25}{$\beta_0,\beta_1,\beta_2,\beta_3,\beta_4$ are \textit{estimated} per \textit{Maximum Likelihood Estimation}},
+
+\center{\textbf{such that}}
+
+$P(EPE_i | \textbf{x}_i, \beta) = p_i^{EPE}(1-p_i)^{1-EPE}$ is the likelihood of a single classification decision 
+
+\center{\textbf{and}}
+
+$p_i = \frac{1}{1 + e^{-(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \beta_3x_{i3} + \beta_4x_{i4} + \beta_5x_{i5})}}$ is the predicted probability, that an EPE occurs at spatio-temporal location i 
+
+\center{\textbf{and}}
+
+$L(\beta_0, \beta_1, \beta_2, \beta_3, \beta_4, \beta_5) = \prod_{i=1}^{n} P(EPE_i | \textbf{x}_i, \beta) = \prod_{i=1}^{n} p_i^{EPE_i}(1-p_i)^{1-EPE_i}$
+
+\begin{center}
+\rule{1\textwidth}{0.5pt}
+\end{center}
 
 ## Generalized \textit{Additive Mixed} Models (GAMM) with a logit link-function and spline-based smooth functions as non-linear special cases of GAMMs
 
