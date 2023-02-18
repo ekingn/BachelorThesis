@@ -2,8 +2,8 @@
 {
   library(here)
   source(here("Scripts","Session-Related","Packages.R"))
-  source(here("Scripts","Data-Manipulation","Initial-Data-Manipulation.R"))
-  source(here("Scripts","Data-Manipulation","Average-Monthly-Precipitation-Heights.R"))
+  source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
+  source(here("Scripts","Data-Manipulation","Training-Data","Average-Monthly-Precipitation-Heights.R"))
 }
 
 Average_Monthly_Precipitation <-   
@@ -21,7 +21,9 @@ Average_Monthly_Precipitation <-
   
 Average_Monthly_Precipitation_Plot <-
 
-ggplot(Average_Monthly_Precipitation) +  
+  Average_Monthly_Precipitation %>% 
+  
+  ggplot() +  
   
   geom_path(data = map_data("world","Germany"),
             aes(x = long,

@@ -7,28 +7,71 @@
 {
 library(here)
 source(here("Scripts","Session-Related","Packages.R"))
-source(here("Scripts","Data-Manipulation","Initial-Data-Manipulation.R"))
+source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
 source(here("Scripts","Functions","Individualizing-Boxplots.R"))
-source(here("Scripts","Data-Manipulation","Classification-As-EPE.R"))
 }
 
-Weather_Data_Above_99th_Percentile = Weather_Data_Daily_Resolution %>% filter(!is.na(rain)) %>% 
+Weather_Data_Above_99th_Percentile <-
+  
+  Weather_Data_Daily_Resolution %>% 
+  
+  filter(!is.na(rain)) %>%
+  
   group_by(month) %>% filter(rain > quantile(rain,
                                              0.99))
 
-Weather_Data_Below_1st_Percentile = Weather_Data_Daily_Resolution %>% filter(!is.na(rain)) %>% 
-  group_by(month) %>% filter(rain < quantile(rain,
-                                             0.01))
-
-Daily_Weather_Monthly_Max = Weather_Data_Daily_Resolution %>% ungroup() %>% filter(!is.na(rain)) %>% group_by(month) %>% summarise(across(.fns = max)) %>% select(month,
-                                                                                                                                                                  rain)
-
-Daily_Weather_Monthly_Min = Weather_Data_Daily_Resolution %>% ungroup() %>% filter(!is.na(rain)) %>% group_by(month) %>% summarise(across(.fns = min)) %>% select(month,
-                                                                                                                                                                  rain)
-
-Distribution_of_Precipitation_Facetted_On_Months = Weather_Data_Daily_Resolution %>% ungroup() %>% 
+Weather_Data_Below_1st_Percentile <-
   
-  filter(!is.na(rain)) %>% mutate(month = as.factor(month)) %>%  group_by(month) %>% 
+  Weather_Data_Daily_Resolution %>% 
+  
+  filter(!is.na(rain)) %>% 
+  
+  group_by(month) %>% 
+  
+  filter(rain < quantile(rain,
+                         0.01))
+
+Daily_Weather_Monthly_Max <-
+  
+  Weather_Data_Daily_Resolution %>% 
+  
+  ungroup() %>% 
+  
+  filter(!is.na(rain)) %>% 
+  
+  group_by(month) %>% 
+  
+  summarise(across(.fns = max)) %>% 
+  
+  select(month,
+         rain)
+
+Daily_Weather_Monthly_Min <- 
+  
+  Weather_Data_Daily_Resolution %>% 
+  
+  ungroup() %>% 
+  
+  filter(!is.na(rain)) %>% 
+  
+  group_by(month) %>% 
+  
+  summarise(across(.fns = min)) %>% 
+  
+  select(month,
+         rain)
+
+Distribution_of_Precipitation_Facetted_On_Months <-
+  
+  Weather_Data_Daily_Resolution %>% 
+  
+  ungroup() %>% 
+  
+  filter(!is.na(rain)) %>% 
+  
+  mutate(month = as.factor(month)) %>% 
+  
+  group_by(month) %>% 
   
   ggplot() +
   
@@ -73,6 +116,7 @@ Distribution_of_Precipitation_Facetted_On_Months = Weather_Data_Daily_Resolution
                      labels = function(x) format(x, 
                                                  big.mark = ".",
                                                  scientific = FALSE)) + 
+  
   geom_point(data = Weather_Data_Above_99th_Percentile,
              colour = "blue",
              size = 0.3) + 

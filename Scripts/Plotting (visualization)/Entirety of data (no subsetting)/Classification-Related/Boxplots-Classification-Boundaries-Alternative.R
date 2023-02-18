@@ -9,26 +9,52 @@
 {
 library(here)
 source(here("Scripts","Session-Related","Packages.R"))
-source(here("Scripts","Data-Manipulation","Initial-Data-Manipulation.R"))
+source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
 source(here("Scripts","Functions","Individualizing-Boxplots.R"))
-source(here("Scripts","Data-Manipulation","Classification-As-EPE.R"))
 }
 
-Monthly_Mean_Precipitation_Across_All_Years = Monthly_Mean_Precipitation_Across_All_Years %>% group_by(month)
+Monthly_Mean_Precipitation_Across_All_Years <-
+  
+  Monthly_Mean_Precipitation_Across_All_Years %>% 
+  
+  group_by(month)
 
-Monthly_Means_Above_99th_Percentile = Monthly_Mean_Precipitation_Across_All_Years %>% filter(monthly_mean_precipitation > 
-                                                                                               quantile(monthly_mean_precipitation,
-                                                                                                        0.99)) 
+Monthly_Means_Above_99th_Percentile <- 
+  
+  Monthly_Mean_Precipitation_Across_All_Years %>% 
+  
+  filter(monthly_mean_precipitation > quantile(monthly_mean_precipitation,
+                                               0.99)) 
 
-Monthly_Means_Below_1st_Percentile = Monthly_Mean_Precipitation_Across_All_Years %>% filter(monthly_mean_precipitation <
-                                                                                            quantile(monthly_mean_precipitation,
-                                                                                                     0.01))
+Monthly_Means_Below_1st_Percentile <- 
+  
+  Monthly_Mean_Precipitation_Across_All_Years %>% 
+  
+  filter(monthly_mean_precipitation < quantile(monthly_mean_precipitation,
+                                               0.01))
 
-Max_Mean_Precipitation = Monthly_Mean_Precipitation_Across_All_Years %>% filter(monthly_mean_precipitation == max(monthly_mean_precipitation))
+Max_Mean_Precipitation <- 
+  
+  Monthly_Mean_Precipitation_Across_All_Years %>% 
+  
+  filter(monthly_mean_precipitation == max(monthly_mean_precipitation))
 
-Min_Mean_Precipitation = Monthly_Mean_Precipitation_Across_All_Years %>% filter(monthly_mean_precipitation == min(monthly_mean_precipitation))
+Min_Mean_Precipitation <- 
+  
+  Monthly_Mean_Precipitation_Across_All_Years %>% 
+  
+  filter(monthly_mean_precipitation == min(monthly_mean_precipitation))
 
-Distribution_of_Classification_Boundaries = Monthly_Mean_Precipitation_Across_All_Years %>% ungroup() %>% mutate(month = as.factor(month)) %>% group_by(month) %>% 
+Distribution_of_Classification_Boundaries <- 
+  
+  Monthly_Mean_Precipitation_Across_All_Years %>% 
+  
+  ungroup() %>% 
+  
+  mutate(month = as.factor(month)) %>% 
+  
+  group_by(month) %>% 
+  
   ggplot() + 
   
   aes(x = month, 

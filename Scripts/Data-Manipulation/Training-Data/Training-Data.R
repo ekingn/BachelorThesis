@@ -49,10 +49,10 @@ Index_Lat_Lon <-
   
   Weather_Data_Daily_Resolution %>%
   
-  select(c(index, 
+  select(c(index,
+           name,
            lat, 
-           lon, 
-           name)) %>% 
+           lon)) %>% 
   
   unique() %>% 
   
