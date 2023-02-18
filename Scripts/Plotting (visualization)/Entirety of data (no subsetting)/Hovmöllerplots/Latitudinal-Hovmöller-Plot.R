@@ -1,9 +1,9 @@
 # If this code is to be executed isolatedly, as a prerequisite de-comment the following code and execute it: 
-# {
-# library(here)
-# source(here("Scripts","Session-Related","Packages.R"))
-# source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
-# }
+{
+library(here)
+source(here("Scripts","Session-Related","Packages.R"))
+source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
+}
 
 
 # The purpose of this script is the creation of a latitudinal Hovmoellerplot 
@@ -110,7 +110,9 @@ Latitudinal_Hovmoellerplot <-
 
 ggsave(plot = Latitudinal_Hovmoellerplot,
        filename = "Latitudinal-Hovmoellerplot-High-Res.jpg",
-       path = here("Output","JPGs","Hovmoellerplots"))
+       path = here("Output","JPGs","Hovmoellerplots"),
+       width = 5,
+       height = 2)
 
 
 
