@@ -15,7 +15,6 @@ header-includes:
   - \usepackage{enumitem}
   - \usepackage{float}
   - \usepackage{sectsty}
-  - \usepackage{paralist}
   - \usepackage{setspace}\spacing{1.5}
   - \usepackage{fancyhdr}
   - \usepackage{lastpage}
@@ -153,7 +152,7 @@ Thanks for reading and see you on thursday.
 
 \justifying
 
-```{r include = FALSE, eval = TRUE}
+```{r include = FALSE, eval = FALSE}
 source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
 ```
 
@@ -171,14 +170,14 @@ When as a result of continuous extreme precipitation Central Europe was struck b
 \newpage
 
 # Framing the problem of spatio-temporally predicting EPE as a binary classification problem
-As a preliminary to modelling the prediction of EPE spatio-temporally, firstly, a conceptual grounding of EPE is due. Since this is no priority in this analysis however, such grounding will be attended to as necessary only. And indeed, it is not outright obvious when a precipitation event (PE) is to be regarded as extreme. A plethora of approaches have their common origin as early as making a choice of what constitutes a precipitation event. Generally, researchers define a precipitation event based on precipitation height, duration or intensity or based on a specific combination of the three. Here, a precipitation event is defined by the daily precipitation height only, as it is believed to be a potent predictor of the environmental impact and damage to infrastructure in itself. Among the possible temporal resolutions, the choice fall on days and against subdaily resolutions (hourly precipitation) or more aggregated resolutions (monthly or annual precipitation), for reasons persistent with the previous argument: Daily precipitation totals are likely better predictors of environmental impact of precipitation than other resolutions, which ultimately is the primary concern for local risk managers. These two choices for essentially basing the concept of precipitation events on daily total precipitation height have already cut away much of the variety of approaching the conceptual grounding thus. At this point, where a daily PE is characterized by the daily precipitation height associated, to also complete the definition of EPE, a threshold (or cut-off) value needs to be decided upon for a specific standard of thruth for classification within this thesis.\newline
+As a preliminary to modelling the prediction of EPE spatio-temporally, firstly, a conceptual grounding of EPE is due. Since this is no priority in this analysis however, such grounding will be attended to as necessary only. And indeed, it is not outright obvious when a precipitation event (PE) is to be regarded as extreme. A plethora of approaches have their common origin as early as making a choice of what constitutes a precipitation event. Generally, researchers define a precipitation event based on precipitation height, duration or intensity or based on a specific combination of the three. Here, a precipitation event is defined by the daily precipitation height only, as it is believed to be a potent predictor of the environmental impact and damage to infrastructure in itself. Among the possible temporal resolutions, the choice fell on days and against subdaily resolutions (hourly precipitation) or more aggregated resolutions (monthly or annual precipitation), for reasons persistent with the previous argument: Daily precipitation totals are likely better predictors of environmental impact of precipitation than other resolutions, which ultimately is the primary concern for local risk managers. These two choices for essentially basing the concept of precipitation events on daily total precipitation height have already cut away much of the variety of approaching the conceptual grounding thus. At this point, where a daily PE is characterized by the daily precipitation height associated, to also complete the definition of EPE, a threshold (or cut-off) value needs to be decided upon for a specific standard of thruth for classification within this thesis.\newline
 A specific percentile of the empirical distribution of precipitation could be used as such threshold value and this approach is indeed being applied in the literature in some cases. Obvious related shortcomings however are the lack of scientific research that indicates, that any specific quantile of the empirical distribution performs well in classifications, that reliably predict risks of environmental hazard. Alternatively, there is a rich whole area of statistics to draw concepts for the cut-off value from, called extreme value theory. This theory has a more differentiated view of the analysis of the values at the precipitation height distributions tail. Attempts to tie it into this thesis however would have increased the difficulty unnecessarily, however. Hence the choice for the threshold value fell on a easily comprehensible, yet powerful concept: Hereafter, a PE is classified as extreme, if the daily total precipitation height exceeds the average monthly total precipitation height for the month, in which the daily precipitation height was observed. In other words: The standard of truth for the classification of a PE as an EPE is, that a PE is an EPE, if the daily precipitation height exceeds the typical total precipitation of the month it belongs to. 
 
 \newpage
 
 # A classifier based on a GAMM with a logit-link for the spatio-temporal classification of EPE
 
-The following section will argue, that on a conceptual level, the problem of modelling the spatio-temporal classification of PE as EPE can be approached reasonably by building a generalized additive mixed model with a logit link function, which then is superimposed by a filtering probability threshold layer. The threshold layer superimposing the built GAMM is thereby ultimately responsible for separating the EPE from the PE based on the criteria, whether the predicted probability succeeds the threshold layer or not. 
+The following section will argue, that on a conceptual level, the problem of modelling the spatio-temporal classification of PE as EPE can be approached reasonably by building a generalized additive mixed model with a logit link function, which is then superimposed by a filtering probability threshold layer. The threshold layer superimposing the built GAMM is thereby ultimately responsible for separating the EPE from the PE based on the criteria, whether the predicted probability succeeds the threshold layer or not. 
 In this context, \textit{reasonably} refers to the fact, that by building a classifier based on a GAMM, all of the essential criteria for the model can be met. The criteria in turn follow from the general objective of this thesis, to built a classifier model that facilitates flood risk management, as follows: 
 Firstly, the classifier model has to be capable of translating an input of the spatial and temporal location of the precipitation event in question into a classification decision. In terms of the model, this relates to the presence of both the spatial and temporal location of the event as covariates. Modelling the classification spatio-temporally does also neccessitate the model to identify spatial, temporal and spatio-temporal dependencies within the data, since neglecting those dependencies would result in structurally classification decisions / prediction errors. Next to the space-time character of the model, more generally, it should also be possible to train the classifier to identify non-linear relations between the classification decision and the covariates. Research indicates in fact, that the effect of variables such as altitude of spatial locations and mean-temperature, which are generally considered strong predictor variables, is non-linear. A classifier model finally involves a binary response, where in this case, a predicted value of 1 translates into "PE in class of EPE", whereas a predicted value of zero translates into "PE not in class of EPE". It comes therefore naturally, that the respective model must be able to handle a binary response variable conceptually.\newline
 One way to show how a classifier based on a GAMM with a logit link meets all these criteria is to start with the arguably most powerful, prevelant and comprehensible regression model, the classical linear regression model. Although the classical linear regression model only meets one requirement of modelling the dependency of precipitation events on spatial and temporal covariates, it can be shown, that following successive interventions within the model, step by step more of the requirements to the classifier model are met, such that the classifier based on the GAMM with logit-link ultimately is developed conceptually as a model to meet all criteria.\newline 
@@ -239,13 +238,57 @@ $L(\beta_0, \beta_1, \beta_2, \beta_3, \beta_4, \beta_5) = \prod_{i=1}^{n} P(EPE
 
 ## Generalized \textit{Additive Mixed} Models (GAMM) with a logit link-function and spline-based smooth functions as non-linear special cases of GAMMs
 
+\justify
+
 Presently, following the above mentioned steps of generalization and on a conceptual level, the spatio-temporal classification of PE as EPE is arguably already partially modelled: The Logistic Regression Model has a probability value as its response after the superimposition of a threshold-layer, the classification of the PE as EPE can be modeled as depending on a linear predictor consisting out of covariates such as altitude, mean-temperature, spatial location and temporal location, while the linear predictor is supplied to the inverse of the logit link-function. From here, the remaining two requirements, the model's ability to capture spatial, temporal and spatio-temporal dependencies as well as capture non-linear relations between response and predictor, are introduced in two simultaneous steps: Another generalization, namely the substition of the linear effects through smoothing-terms, as well as the introduciton of random effects. As a consequence, the originally linear predictor is no longer linear and since the smoothing terms are still additively concatenated, ultimately a Generalized Additive Mixed Model with a logit link-function and smoothing terms for effects is built. As this GAMM is able to model the probability of a PE being an EPE as being spatio-temporally dependent on the mentioned covariates, it takes the superimposition of a filtering probability threshold-layer to produce a classifier model that finally meets all the discussed requirements. 
+
+# The Necessity for modelling a ***SPATIO-TEMPORAL*** classification procedure
+
+Within this thesis, I assert, that the clasifier models to be built have to account for spatial, temporal and spatio-temporal dependencies in the precipitation heights data. To support this assertion, this chapter is set out to demonstrate these spatial and temporal dependencies, where the variation of spatial and temporal covariability will be visualized and analyzed accordingly. Tools, that are used to demonstrate these dependencies are
+
+\begin{itemize}
+ \item One spatial and one temporal Semivariogram
+ \item One spatial and one temporal Covariancematrix
+ \item Spatial autocorrelation measured as spatial covariance as a function of latitudinal lag d
+ \item Temporal autocorrelation measured as temporal covariance as a function of temporal lag p
+\end{itemize}
+
+## Spatial Semivariance Equation (for Semivariogram)
+
+$$\gamma_{\mathrm{lon}}(d) = \frac{1}{2N(d)(T-p)}{}\sum_{i=1}^{N(d)}\sum_{t=p+1}^{T}(rain_{\mathrm{\small{lon}},\small{lat_i+d,t}} - rain_{\mathrm{\small{lon}},\small{lat_i,t-p}})^2$$
+
+## Spatial Covariance Equation
+
+$$ \hat{C}_{\mathrm{lon}}(lat_i,lat_k) = \frac{1}{T-p}\sum_{t=p+1}^{T} \left(rain_{\mathrm{lon},lat_i,t} - \frac{1}{T_{\mathrm{lat_i}}}\sum_{t=1}^{T_{\mathrm{lat_i}}} rain_{\mathrm{lon},lat_i,t}\right)\left(rain_{\mathrm{lon},lat_k,t-p} - \frac{1}{T_{\mathrm{lat_k}}}\sum_{t=1}^{T_{\mathrm{lat_k}}} rain_{\mathrm{lon},lat_k,t-p}\right) $$
+\center{\textbf{where $lat_i$ and $lat_k$ are latitudinal degrees, such that ($\mathrm{lat_i}$,$\mathrm{lat_k}$) $\epsilon$ [47.4,54.8]}}
+
+\center{\textbf{and where $\mathrm{lon}$ denotes one of five latitudinal intervals of equal length, as follows:}}
+
+\begin{itemize}
+\item Interval 1: 6.02 to 7.49 degrees longitude\footnote{If the observation belongs to interval 1, then $\mathrm{lon}=1$.}
+\item Interval 2: 7.49 to 8.96 degrees longitude\footnote{If the observation belongs to interval 2, then $\mathrm{lon}=2$.}
+\item Interval 3: 8.96 to 10.43 degrees longitude\footnote{If the observation belongs to interval 3, then $\mathrm{lon}=3$.}
+\item Interval 4: 10.43 to 11.9 degrees longitude\footnote{If the observation belongs to interval 4, then $\mathrm{lon}=4$.}
+\item Interval 5: 11.9 to 13.37 degrees longitude\footnote{If the observation belongs to interval 5, then $\mathrm{lon}=5$.}
+\item Interval 6: 13.37 to 14.95 degrees longitude\footnote{If the observation belongs to interval 6, then $\mathrm{lon}=6$.}
+\end{itemize}
+
+## Spatial Latitudinal Autocorrelation Equation 
+
+\begin{align*}
+\hat{C}_{\mathrm{lon}}(d,p) &= \frac{1}{T-p}\sum_{t=p+1}^{T} \sum_{\mathrm{\scriptsize{lat_i}}} \sum_{\mathrm{\scriptsize{lat_k}}} \left(rain_{\mathrm{\scriptsize{lon}},\mathrm{\scriptsize{lat_i}},t} - \frac{1}{T_{\mathrm{\scriptsize{lat_i}}}}\sum_{t=1}^{T_{\mathrm{\scriptsize{lat_i}}}} rain_{\mathrm{\scriptsize{lon}},\mathrm{\scriptsize{lat_i}},t}\right) \\
+&\qquad \times \left(rain_{\mathrm{\scriptsize{lon}},\mathrm{\scriptsize{lat_k}},t-p} - \frac{1}{T_{\mathrm{\scriptsize{lat_k}}}}\sum_{t=1}^{T_{\mathrm{\scriptsize{lat_k}}}} rain_{\mathrm{\scriptsize{lon}},\mathrm{\scriptsize{lat_k}},t-p}\right) \delta_{\mathrm{\scriptsize{lat_i-d}},\mathrm{\scriptsize{lat_k}}}
+\end{align*}
+
+\center{\textbf{where}}
+
+$$\delta_{lat_i-d,lat_k} = \begin{cases} 1, & \text{if } lat_i=lat_k+d \\ 0, & \text{otherwise} \end{cases}$$
 
 \newpage
 
 # Session Info
 
-```{r include = TRUE, eval = TRUE}
+```{r include = TRUE, eval = FALSE}
 sessionInfo()
 ```
 
