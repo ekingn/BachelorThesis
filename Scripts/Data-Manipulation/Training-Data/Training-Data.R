@@ -221,7 +221,7 @@ Weather_Data_Daily_Resolution <-
     Weather_Data_Daily_Resolution$month <=  8 & Weather_Data_Daily_Resolution$month >=  6 ~ "Summer",
     Weather_Data_Daily_Resolution$month <=  5 & Weather_Data_Daily_Resolution$month >=  3 ~ "Spring"))
 
-# Change column positions
+# Change column positionsf
 Weather_Data_Daily_Resolution <-
   
   Weather_Data_Daily_Resolution %>% 

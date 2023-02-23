@@ -253,36 +253,26 @@ Within this thesis, I assert, that the clasifier models to be built have to acco
  \item Temporal autocorrelation measured as temporal covariance as a function of temporal lag p
 \end{itemize}
 
-## Spatial Semivariance Equation (for Semivariogram)
+## Spatial Semivariogram Equation
 
-$$\gamma_{\mathrm{lon}}(d) = \frac{1}{2N(d)(T-p)}{}\sum_{i=1}^{N(d)}\sum_{t=p+1}^{T}(rain_{\mathrm{\small{lon}},\small{lat_i+d,t}} - rain_{\mathrm{\small{lon}},\small{lat_i,t-p}})^2$$
+$$
+\gamma(d_{spatial},jul_a) = \frac{1}{2|N(d_{spatial})|}\times\sum_{(lon_r,lat_i),(lon_s,lat_k)\epsilon\:N(d_{spatial})}(rain_{lon_r,lat_i,jul_a}, - rain_{lon_s,lat_k,jul_a})^2
+$$
 
-## Spatial Covariance Equation
+## Temporal Semivariogram
 
-$$ \hat{C}_{\mathrm{lon}}(lat_i,lat_k) = \frac{1}{T-p}\sum_{t=p+1}^{T} \left(rain_{\mathrm{lon},lat_i,t} - \frac{1}{T_{\mathrm{lat_i}}}\sum_{t=1}^{T_{\mathrm{lat_i}}} rain_{\mathrm{lon},lat_i,t}\right)\left(rain_{\mathrm{lon},lat_k,t-p} - \frac{1}{T_{\mathrm{lat_k}}}\sum_{t=1}^{T_{\mathrm{lat_k}}} rain_{\mathrm{lon},lat_k,t-p}\right) $$
-\center{\textbf{where $lat_i$ and $lat_k$ are latitudinal degrees, such that ($\mathrm{lat_i}$,$\mathrm{lat_k}$) $\epsilon$ [47.4,54.8]}}
+$$
+\gamma(d_{julian},(lon_r,lat_i)) = \frac{1}{2|N(d_{julian})|}\times\sum_{jul_a,jul_b\:\epsilon\:N(d_{julian})}(rain_{lon_r,lat_i,jul_a}, - rain_{lon_r,lat_i,jul_b})^2
+$$
 
-\center{\textbf{and where $\mathrm{lon}$ denotes one of five latitudinal intervals of equal length, as follows:}}
+## Spatial Covariance Equation 
 
-\begin{itemize}
-\item Interval 1: 6.02 to 7.49 degrees longitude\footnote{If the observation belongs to interval 1, then $\mathrm{lon}=1$.}
-\item Interval 2: 7.49 to 8.96 degrees longitude\footnote{If the observation belongs to interval 2, then $\mathrm{lon}=2$.}
-\item Interval 3: 8.96 to 10.43 degrees longitude\footnote{If the observation belongs to interval 3, then $\mathrm{lon}=3$.}
-\item Interval 4: 10.43 to 11.9 degrees longitude\footnote{If the observation belongs to interval 4, then $\mathrm{lon}=4$.}
-\item Interval 5: 11.9 to 13.37 degrees longitude\footnote{If the observation belongs to interval 5, then $\mathrm{lon}=5$.}
-\item Interval 6: 13.37 to 14.95 degrees longitude\footnote{If the observation belongs to interval 6, then $\mathrm{lon}=6$.}
-\end{itemize}
+## Spatio-Temporal Covariance Equation
 
-## Spatial Latitudinal Autocorrelation Equation 
+$$
+\gamma(d_{spatial},jul_a) = \frac{1}{2|N(d_{spatial})|}\frac{1}{2|N(d_{julian})|}\times\sum_{(lon_r,lat_i),(lon_s,lat_k)\epsilon\:N(d_{spatial})}\:\sum_{jul_a,jul_b\:\epsilon\:N(d_{julian})}(rain_{lon_r,lat_i,jul_a} - \hat{\mu}_{jul_a})(rain_{lon_s,lat_k,jul_a} - \hat{\mu}_{jul_b})
+$$
 
-\begin{align*}
-\hat{C}_{\mathrm{lon}}(d,p) &= \frac{1}{T-p}\sum_{t=p+1}^{T} \sum_{\mathrm{\scriptsize{lat_i}}} \sum_{\mathrm{\scriptsize{lat_k}}} \left(rain_{\mathrm{\scriptsize{lon}},\mathrm{\scriptsize{lat_i}},t} - \frac{1}{T_{\mathrm{\scriptsize{lat_i}}}}\sum_{t=1}^{T_{\mathrm{\scriptsize{lat_i}}}} rain_{\mathrm{\scriptsize{lon}},\mathrm{\scriptsize{lat_i}},t}\right) \\
-&\qquad \times \left(rain_{\mathrm{\scriptsize{lon}},\mathrm{\scriptsize{lat_k}},t-p} - \frac{1}{T_{\mathrm{\scriptsize{lat_k}}}}\sum_{t=1}^{T_{\mathrm{\scriptsize{lat_k}}}} rain_{\mathrm{\scriptsize{lon}},\mathrm{\scriptsize{lat_k}},t-p}\right) \delta_{\mathrm{\scriptsize{lat_i-d}},\mathrm{\scriptsize{lat_k}}}
-\end{align*}
-
-\center{\textbf{where}}
-
-$$\delta_{lat_i-d,lat_k} = \begin{cases} 1, & \text{if } lat_i=lat_k+d \\ 0, & \text{otherwise} \end{cases}$$
 
 \newpage
 
