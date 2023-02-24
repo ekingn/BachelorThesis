@@ -35,9 +35,12 @@ haversine_distance_two_points <- function(lat1, long1, lat2, long2) {
   
   c <- 
     
-    2 * asin(min(1, sqrt(a)))
+    2 * asin(min(1, 
+                 sqrt(a)))
   
-  distance_km <- earth_radius_km * c
+  distance_km <- 
+    
+    earth_radius_km * c
   
   # Return the distance in kilometers
   return(distance_km)
@@ -47,3 +50,5 @@ haversine_distance_two_points <- function(lat1, long1, lat2, long2) {
 deg2rad <- function(deg) {
   return(deg * pi / 180)
 }
+
+

@@ -101,7 +101,22 @@ Stacked_Distance_Matrix <-
                                  sep = "-"),
          distance_km = values) %>% 
   
-  select(pair_of_indices, distance_km)
+  select(pair_of_indices, distance_km) %>% 
+  
+  mutate(index_1 = rep(seq(from = 1,
+                           to = nrow(Lon_Lat),
+                           by = 1),
+                       each = nrow(Lon_Lat)),
+         index_2 = rep(seq(from = 1,
+                           to = nrow(Lon_Lat),
+                           by = 1),
+                       times = nrow(Lon_Lat))
+         ) %>% 
+  
+  select(index_1,
+         index_2,
+         pair_of_indices,
+         distance_km)
 
 
 Intervals_of_Distance <- 
@@ -109,7 +124,9 @@ Intervals_of_Distance <-
   Stacked_Distance_Matrix %>% 
   
   mutate(interval = cut(distance_km, 
-                        breaks = seq(0, max(distance_km), length.out = 26),
+                        breaks = seq(0, 
+                                     max(distance_km), 
+                                     length.out = 26),
                         include.lowest = TRUE, 
                         right = FALSE)) %>% 
   
@@ -118,6 +135,8 @@ Intervals_of_Distance <-
   summarise(count = n()/2) %>% 
   
   ungroup()
+
+
 
 
 
