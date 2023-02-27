@@ -1,54 +1,14 @@
-# Haversine formula for calculating distance between two points specified by latitude and longitude
-haversine <- function(lat1, 
-                      long1, 
-                      lat2, 
-                      long2) {
-  
-  # Convert latitudes and longitudes to radians
-  lat1_rad <- 
-    
-    lat1 * pi / 180
-  
-  long1_rad <- 
-    
-    long1 * pi / 180
-  
-  lat2_rad <- 
-    
-    lat2 * pi / 180
-  
-  long2_rad <- 
-    
-    long2 * pi / 180
-  
-  # Calculate differences in latitude and longitude
-  delta_lat <- 
-    
-    lat2_rad - lat1_rad
-  
-  delta_long <- 
-    
-    long2_rad - long1_rad
-  
-  # Radius of the Earth in kilometers
-  earth_radius_km <- 6371
-  
-  # Haversine formula for calculating distance
-  a <- 
-    
-    sin(delta_lat/2)^2 + cos(lat1_rad) * cos(lat2_rad) * sin(delta_long/2)^2
-  
-  c <- 
-    
-    2 * asin(pmin(1, sqrt(a)))
-  
-  distance_km <- 
-    
-    earth_radius_km * c
-  
-  # Return the distance in kilometers
-  return(distance_km)
-}
+# If this code is to be executed isolatedly, as a prerequisite de-comment the following code and execute it:
+
+#library(here)
+#source(here("Scripts","Session-Related","Packages.R"))
+#source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
+#source(here("Scripts","Functions","Haversine-Function.R"))
+
+
+# The purpose of this script is twofold:
+# - Compute the spatial distances in kilometre between all spatial combinations weather stations 
+# - Provide the spatial intervals for the computation of the spatio-temporal covariance function
 
 # Create a dataframe called Lon_Lat, whose first column consists of longitudinal degrees
 # and whose second column consists of latitudinal degrees
@@ -62,17 +22,29 @@ Lon_Lat <-
   rename("longitude" = lon,
          "latitude" = lat)
 
-# Calculate distance between all pairs of points
-distance_matrix <- 
+
+
+{
+  # initialize an empty matrix to hold distances
+  n <- nrow(Lon_Lat)
+  distance_matrix <- matrix(0, nrow=n, ncol=n)
   
-  data.frame(apply(Lon_Lat,
-                   1,
-                   function(row) {
-                     haversine(row[2],
-                               row[1],
-                               Lon_Lat$latitude,
-                               Lon_Lat$longitude)}
-                   ))
+  # loop over all pairs of points and calculate distances
+  for (i in 1:n) {
+    for (j in 1:n) {
+      distance_matrix[i, j] <- haversine(lat1 = Lon_Lat$latitude[i],
+                                         lon1 = Lon_Lat$longitude[i],
+                                         lat2 = Lon_Lat$latitude[j],
+                                         lon2 = Lon_Lat$longitude[j])
+    }
+  }
+
+  # convert the matrix to a data frame with appropriate row and column names
+  distance_matrix <- as.data.frame(distance_matrix)
+  rownames(distance_matrix) <- 1:nrow(Lon_Lat)
+  colnames(distance_matrix) <- 1:nrow(Lon_Lat)
+}
+
 
 colnames(distance_matrix) <- 
   
@@ -111,7 +83,7 @@ Stacked_Distance_Matrix <-
                            to = nrow(Lon_Lat),
                            by = 1),
                        times = nrow(Lon_Lat))
-         ) %>% 
+  ) %>% 
   
   select(index_1,
          index_2,
@@ -119,24 +91,22 @@ Stacked_Distance_Matrix <-
          distance_km)
 
 
-Intervals_of_Distance <- 
+Intervals_of_Spatial_Distance <- 
   
   Stacked_Distance_Matrix %>% 
   
-  mutate(interval = cut(distance_km, 
+  mutate(spatial_interval = cut(distance_km, 
                         breaks = seq(0, 
                                      max(distance_km), 
-                                     length.out = 26),
+                                     length.out = 51),
                         include.lowest = TRUE, 
                         right = FALSE)) %>% 
   
-  group_by(interval) %>% 
+  group_by(spatial_interval) %>% 
   
-  summarise(count = n()/2) %>% 
+  summarise(count = n()) %>% 
   
-  ungroup()
-
-
-
-
+  ungroup() %>% 
+  
+  mutate(spatial_interval = as.character(spatial_interval))
 

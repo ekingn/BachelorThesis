@@ -499,7 +499,7 @@ The estimated means of the precipitation height data for times $jul_a$ and $jul_
 
 \center{\rule{1\linewidth}{0.5pt}}
 \begin{align}
-\hat{C}_{rain}(d_{spatial},d_{julian}) &= \frac{1}{2|N(d_{spatial})|}\frac{1}{2|N(d_{julian})|}\times \Bigg(\sum_{(lon_r,lat_i),(lon_s,lat_k)\:\in\:N(d_{spatial})}\:\sum_{jul_a,jul_b\:\in\:N(d_{julian})} \\ &\qquad\left(rain_{lon_r,lat_i,jul_a} - \hat{\mu}_{jul_a}\right)\left(rain_{lon_s,lat_k,jul_b} - \hat{\mu}_{jul_b}\right)\Bigg)
+\hat{C}_{rain}(d_{spatial},d_{julian}) &= \frac{1}{|N(d_{spatial})|}\frac{1}{|N(d_{julian})|}\times \Bigg(\sum_{(lon_r,lat_i),(lon_s,lat_k)\:\in\:N(d_{spatial})}\:\sum_{jul_a,jul_b\:\in\:N(d_{julian})} \\ &\qquad\left(rain_{lon_r,lat_i,jul_a} - \hat{\mu}_{jul_a}\right)\left(rain_{lon_s,lat_k,jul_b} - \hat{\mu}_{jul_b}\right)\Bigg)
 \end{align}
 \center{\rule{1\linewidth}{0.5pt}
 
