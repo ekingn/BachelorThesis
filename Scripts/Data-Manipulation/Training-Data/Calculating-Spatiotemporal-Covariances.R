@@ -18,28 +18,54 @@
 
 # If this code is to be executed isolatedly, as a prerequisite de-comment the following code and execute it:
 
-# {
-# library(here)
-# source(here("Scripts","Session-Related","Packages.R"))
-# source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
-# source(here("Scripts","Functions","Haversine-Function-Arguments-are-Columns.R"))
-# source(here("Scripts","Functions","Haversine-Function.R"))
-# source(here("Scripts","Data-Manipulation","Training-Data","Spatial-Means-Each-Julian-Date.R"))
-# source(here("Scripts","Data-Manipulation","Training-Data","Spatial-Distances.R"))
-# source(here("Scripts","Data-Manipulation","Training-Data","Intervals-of-Spatial-Distances.R"))
-# source(here("Scripts","Data-Manipulation","Training-Data","Temporal-Distances.R"))
-# source(here("Scripts","Data-Manipulation","Training-Data","Intervals-of-Temporal-Distances.R"))
-# }
+{
+library(here)
+source(here("Scripts","Session-Related","Packages.R"))
+source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
+source(here("Scripts","Functions","Haversine-Function-Arguments-are-Columns.R"))
+source(here("Scripts","Functions","Haversine-Function.R"))
+source(here("Scripts","Data-Manipulation","Training-Data","Spatial-Means-Each-Julian-Date.R"))
+source(here("Scripts","Data-Manipulation","Training-Data","Spatial-Distances.R"))
+source(here("Scripts","Data-Manipulation","Training-Data","Intervals-of-Spatial-Distances.R"))
+source(here("Scripts","Data-Manipulation","Training-Data","Temporal-Distances.R"))
+source(here("Scripts","Data-Manipulation","Training-Data","Intervals-of-Temporal-Distances.R"))
+}
+
+{
+  objects_to_keep <-
+    
+    c("Weather_Data_Daily_Resolution",
+      "Index_Lat_Lon",
+      "Intervals_of_Spatial_Distance",
+      "Intervals_of_Temporal_Distance",
+      "haversine_distance_two_points_column_arguments",
+      "haversine_distance_two_points",
+      "Spatial_Means_Julian_Dates")
+  
+  # Create a list of all objects in the environment
+  all_objects <-
+    
+    ls()
+  
+  # Determine the objects to be deleted
+  objects_to_be_deleted <-
+    
+    setdiff(all_objects, objects_to_keep)
+  
+  # Delete the unwanted objects
+  rm(list = objects_to_be_deleted)
+}
 
 # Prepare the data. Since the calculation of the spatio-temporal covariancefunction, as implemented here,
 # is demanding with regard to working memory, only observations from the January 2012, the first 10 days
 # are used. 
+{
 Paired_Precipitation_Heights <- 
   
   Weather_Data_Daily_Resolution %>% 
   
   filter(year %in% 2012, 
-         month %in% 1, 
+         month %in% 1,
          day %in% 1:10) %>% 
   
   select(index, 
@@ -47,7 +73,9 @@ Paired_Precipitation_Heights <-
          rain) 
 
 rm(Weather_Data_Daily_Resolution)
+}
 
+{
 spatial_indices <- 
   
   unique(Paired_Precipitation_Heights$index)
@@ -64,22 +92,31 @@ grid <-
               location2 = spatial_indices, 
               julian_date1 = temporal_indices, 
               julian_date2 = temporal_indices)
+}
 
-{
+
 # After all possible pairs of spatio-temporal locations, for whom the day of 
 # observations lies within the first 10 days of january 2012, have been determined
 # within a dataframe called grid, every row in that dataframe represents the 
 # a pair of indices of weatherstations and a pair of julian dates. Now, the 
 # precipitation height observed at the respective locations are added.
 # Various other variables are either added or calculated also.
-merged_df <- 
+{merged_df <- 
   
   grid %>% 
   
   left_join(Paired_Precipitation_Heights, 
             by = c("location1" = "index", 
-                   "julian_date1" = "days_since_earliest_observation")) %>% 
+                   "julian_date1" = "days_since_earliest_observation"))
+
+rm(grid)
+}
+
+{
+merged_df <-
   
+  merged_df %>%
+
   rename(rainfall1 = rain) %>% 
   
   left_join(Paired_Precipitation_Heights, 
@@ -148,11 +185,13 @@ merged_df$spatial_distance <-
                                                  lon2_col = "lon2")
 }
 
+{  
 Paired_Precipitation_Heights <-
 
   merged_df
 
 rm(merged_df)
+}
 
 {
 # Here, two data frames, one of which defined in another sourced script,

@@ -30,11 +30,12 @@ header-includes:
   - \usepackage{framed}
   - \usepackage{multicol}
   - \usepackage{changepage}
+  - \usepackage{mathtools}
 fig_caption: true 
 fig_crop: true
 highlight: "tango"
 linkcolor: blue
-urlcolor: blue
+urlcolor: black
 citecolor: black
 df_print: kable
 ---
@@ -126,19 +127,6 @@ Supervisor: Dr. Isa Marques \\Enrolment number: 21675680 \\e-mail: ekin.guelhan(
 
 \newpage
 
-# Some Remarks
-
-\begin{Center}
-\begin{justify}
-\normalsize
-\textbf{Dear Dr. Marques,}\newline
-this version of the thesis paper is meant to lay out the general argument of my thesis paper and decisions I have made along the way until now, in the hope, that I can get some feedback in terms of disagreement or agreement. With some tasks, I have been successful in implementing them already, with others, I have not. For those ideas I have not finished implementing in R, I may just refer to the concept of their implementation. Also, I do not reference my explanations and statements as of now, which I do not believe to be relevant for our meeting on thursday just yet. Much of my work was focused on the theory behind the regression models, on how to design a reproducible analysis project in R, using best practices of coding and data science. Some of this is already reflected in the way, that the github repository is structured and particularily in the structure of the code scripts. I especially want to point out that I managed to maximize the mobility of the project by using a combination of the packages "here", "renv" and GitHub obviously, such that anyone who installs both packages should be able to execute the scripts and the late markdown file without the usual trouble of setting work directories and caring about package versions, while scripts themselves are trimmed for readibility by rigorous application of the tidyverse logic, which I believe to reflect the philosophy of R of function and data flow based coding well. If you actually want to have a look at the scripts, there are only a few preliminary steps you need to take (this might be redundant, depending on whether you are familiar with "renv" and "here" or not):\newline 1. Open the r project file first\newline 2. Install and require "here" and "renv"\newline 3. Execute "renv::restore()" to load the packages from the renv lock file into the project library in the right versions (you may need to execute this command several times).\newline
-Thanks for reading and see you on thursday.
-\end{justify}
-\end{Center}
-
-\newpage
-
 # Abstract
 
 \begin{Center}
@@ -168,7 +156,7 @@ source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
 \begingroup
 \justify
 
-When as a result of continuous extreme precipitation Central Europe was struck by massive floods in 2013, among other affected areas, Germany suffered loss of life and property. During this time of crisis, the public observed German institutions of flood risk management take effect and soon politicians began to publicly announce and evaluate the state of crisis and countermeasures. As they did, critical voices arose also and assertions were made, whereafter the responsibility for the losses at least partially lie with political failure of then contemporary institutions and officials. Research conducted in the aftermath evaluating the preparation for and response to the floods of 2013 indeed indicate the negative effect of political structures on the performance of the flood risk management of 2013, including the relevance of the dissemination of flood related information through government agencies, which the municipalities’ officials found difficult to interpret and apply. Where questions related to how to improve local access to crucial information of the time and place of extreme precipitation events (EPE) naturally warrant answers thus, a scientific approach to their answers is relevant all the more.
+In 2013, massive floods resulting from continuous extreme precipitation hit Central Europe, causing loss of life and property in Germany and other affected areas. During this crisis, German institutions responsible for flood risk management took action and politicians publicly announced and evaluated the state of the crisis and countermeasures. However, critical voices also arose, asserting that the responsibility for the losses partially lay with the political failure of the institutions and officials at that time. Research conducted in the aftermath of the floods of 2013 evaluated the preparation for and response to the disaster, indicating the negative effect of political structures on the performance of flood risk management, including the dissemination of flood-related information through government agencies, which municipalities moreover found difficult to interpret and apply. Therefore, it is important to scientifically address questions related to improving local access to crucial information about the time and place of extreme precipitation events (EPE) to prevent such disasters in the future.
 
 \endgroup
 
@@ -177,8 +165,11 @@ When as a result of continuous extreme precipitation Central Europe was struck b
 \begingroup
 \justify
 
-  Against this background, the present thesis paper is set out for determining, which of two spatio-temporal classifier models perform better in the task of predicting extreme precipitation events in Germany, while observations of precipitation height between 1996 and 2012 have been used in training and evaluating the classifier models and observations between 2013 and 2016 have been fed to the trained models for model validation and model comparison respectively. As the author strives for a data scientific career post graduation, a focus has been set on not only applying scientific, but data scientific best practices in particular, which rendered reproducibility of the analyses a major concern. For this reason, the thesis paper has been produced within a rigorously encapsulated and mobile project directory, to which access is available via a GitHub repository. The R package “here” has been used to allow for such mobility in the first place, as it enables the substitution of absolute file paths with relative file paths, such that a path is no longer defined as the absolute and hierarchical location of the file on the computer, but as the position of the file relative to the topmost folder, where the R project file resides. In this sense, the R project file is the center of the practical implementation of the thesis. Using relative paths then, different parts of the data manipulation, modelling and analysis have been isolated in scripts, that can be executed on their own and independent of the markdown file, from which this thesis is knitted. As is the case elsewhere, computational functionality in those scripts relies on R packages provided by members of the R community. Reproducing the analytical steps however necessitates not only that the packages are installed, but that they are installed in the form of a specific version. To minimize the effort needed for such package version control, the R package "renv" has been utilized, which creates a project package library secondary to the system library. A so called "renv.lock"-file is included in the project repository, which is a reference to all the packages (and their specific versions) required for the reproduction of the thesis and its' analyses. Using the renv package, anyone with access to the thesis project repository can easily install the package in the required versions via the "restore()" function. Since the author considers the tidyverse as the current best practice of data manipulation and programming of data streams in R, packages associated with it and in particular tidyverse pipes have been used rigourously. Finally for readibility, within mathematical expressions used in this thesis, vectors are denoted through bold-font while matrices are denoted through bold-font plus a description of the dimension as subscript. 
-
+Against this background, it is the aim of the present thesis to determine which of two spatio-temporal classifier models performs better in predicting EPE in Germany. Observations of precipitation height between 1996 and 2012 have been used to train and evaluate the classifier models, while observations between 2013 and 2016 are meant for model validation and comparison. As the author aspires to a career in data science, the focus has been on not only applying scientific but also data scientific best practices, making reproducibility of the analyses a major concern.\newline
+For this reason, the thesis has been produced within a rigorously encapsulated and mobile project directory that can be accessed via a [\textbf{GitHub repository}](https://github.com/ekingn/BachelorThesis)\footnote{Access to the repository on request. Reach out to me via ekin.guelhan@posteo.de}. The R package "here" has been used to enable mobility by substituting absolute file paths with relative file paths. This way, the path is defined relative to the topmost folder where the R project file resides. The R project file is the center of the practical implementation of the thesis. Using relative paths, different parts of the data manipulation, modelling, and analysis have been isolated in scripts that can be executed independently of the markdown file from which this thesis is knitted.\newline
+As is usually the case with R, computational functionality in those at least partially scripts relies on R packages provided by members of the R community. Reproducing the analytical steps, however, requires not only that the packages are installed but also that they are installed in a specific version. To minimize the effort needed for such package version control, the R package "renv" has been utilized, which creates a project package library secondary to the system library. A "renv.lock"-file is included in the project repository, which is a reference to all the required packages (and their specific versions) for reproducing the thesis and its analyses. Using the renv package, anyone with access to the thesis project repository can easily install the required packages via the "restore()" function.\newline
+Since the author considers the tidyverse as the current best practice of data manipulation and programming of data streams in R, packages associated with it, and in particular tidyverse pipes, have been rigorously used. Finally, for readability, vectors are d
+enoted through bold font, while matrices are denoted through bold font plus a description of the dimension as a subscript within mathematical expressions used in this thesis.
 \endgroup
 
 \newpage
@@ -188,8 +179,46 @@ When as a result of continuous extreme precipitation Central Europe was struck b
 \begingroup
 \justify
 
-As a preliminary to modelling the prediction of EPE spatio-temporally, firstly, a conceptual grounding of EPE is due. Since this is no priority in this analysis however, such grounding will be attended to as necessary only. And indeed, it is not outright obvious when a precipitation event (PE) is to be regarded as extreme. A plethora of approaches have their common origin as early as making a choice of what constitutes a precipitation event. Generally, researchers define a precipitation event based on precipitation height, duration or intensity or based on a specific combination of the three. Here, a precipitation event is defined by the daily precipitation height only, as it is believed to be a potent predictor of the environmental impact and damage to infrastructure in itself. Among the possible temporal resolutions, the choice fell on days and against subdaily resolutions (hourly precipitation) or more aggregated resolutions (monthly or annual precipitation), for reasons persistent with the previous argument: Daily precipitation totals are likely better predictors of environmental impact of precipitation than other resolutions, which ultimately is the primary concern for local risk managers. These two choices for essentially basing the concept of precipitation events on daily total precipitation height have already cut away much of the variety of approaching the conceptual grounding thus. At this point, where a daily PE is characterized by the daily precipitation height associated, to also complete the definition of EPE, a threshold (or cut-off) value needs to be decided upon for a specific standard of thruth for classification within this thesis.\newline
-A specific percentile of the empirical distribution of precipitation could be used as such threshold value and this approach is indeed being applied in the literature in some cases. Obvious related shortcomings however are the lack of scientific research that indicates, that any specific quantile of the empirical distribution performs well in classifications, that reliably predict risks of environmental hazard. Alternatively, there is a rich whole area of statistics to draw concepts for the cut-off value from, called extreme value theory. This theory has a more differentiated view of the analysis of the values at the precipitation height distributions tail. Attempts to tie it into this thesis however would have increased the difficulty unnecessarily, however. Hence the choice for the threshold value fell on a easily comprehensible, yet powerful concept: Hereafter, a PE is classified as extreme, if the daily total precipitation height exceeds the average monthly total precipitation height for the month, in which the daily precipitation height was observed. In other words: The standard of truth for the classification of a PE as an EPE is, that a PE is an EPE, if the daily precipitation height exceeds the typical total precipitation of the month it belongs to. 
+As a preliminary to modeling the spatio-temporal prediction of EPE, a conceptual grounding of EPE is necessary. However, since this is not a priority in this analysis, such grounding will only be attended to as necessary. Indeed, it is not outright obvious when a precipitation event (PE) is to be regarded as extreme. A plethora of approaches have their common origin as early as making a choice of what constitutes a PE. Generally, researchers define a PE based on precipitation height, duration, or intensity, or based on a specific combination of the three.\newline
+Here, a PE is defined by the daily precipitation height only, as it is believed to be a potent predictor of the environmental impact and damage to infrastructure in itself. Among the possible temporal resolutions, the choice fell on days and against sub-daily resolutions (hourly precipitation) or more aggregated resolutions (monthly or annual precipitation) for reasons persistent with the previous argument: Daily precipitation totals are likely better predictors of the environmental impact of precipitation than other resolutions, which ultimately is the primary concern for local risk managers. These two choices for essentially basing the concept of PEs on daily total precipitation height have already cut away much of the variety of approaching the conceptual grounding.\newline
+At this point, where a daily PE is characterized by the daily precipitation height associated, to also complete the definition of EPE, a threshold (or cut-off) value needs to be decided upon for a specific standard of truth, or an axiomatic unambiguous way to seperate PE from EPE, respectively. Hence the use of the threshold value is to mark a threshold or boundary, based on whom each PE with its associated precipitation height, be it observed or predicted, is declared as either EPE or non-EPE. This declaration as either EPE or non-EPE is then finally be framed as a classification, with one class consisting of all the EPE, and the other class consisting of non-EPE, such that all PE can unambiguously and exhaustively be classified as either of both. The value of this conceptual act of framing the task of predicting EPE as classifying a given PE as either EPE or non-EPE, which is in fact a simple matter of definition, lies with the literature concerning the modeling, building / training and evaluation of classifier models, which hence becomes applicable.\newline
+Thus, for the concrete task of establishing a threshold value, a specific percentile of the empirical distribution of precipitation may be considered in the first instance. This approach is indeed being applied in the literature in some cases. Obvious related shortcomings, however, are the lack of scientific research that indicates that any specific quantile of the empirical distribution performs well in classifications, that reliably predict risks of environmental hazard.\newline
+Alternatively, there is a rich whole area of statistics to draw concepts for the cut-off value from, and it is called extreme value theory. This theory has a more differentiated view of the analysis of the values at the precipitation height distribution's tail. Attempts to tie it into this thesis, however, would have increased the difficulty unnecessarily. Hence, the choice for the threshold value fell on an easily comprehensible yet powerful concept:\newline
+Let $P_{(lon_i,lat_r,y,m,d)}$ be the daily total precipitation height observed at spatial location $(lon_i,lat_r)$, where $lon_i$ and $lat_r$ denote the longitudinal and latiduinal degree respectively and $y$, $m$ and $d$ denote a year, month and day of the month.
+Also, let $P_{lon_i,lat_r,y,m}$ be the total precipitation height of the month $m$ in the year $y$.\newline
+Then, the monthly total precipitation height $P_{(lon_i,lat_r,y,m)}$ for location $(lon_i,lat_r)$ in year $y$ can be calculated as:
+
+\begin{equation}\label{eq:monthly_total_precipitation_height}
+P_{(lon_i,lat_r,y,m)} = \sum_{d \in m}P_{(lon_i,lat_r,y,m,d)}
+\end{equation}
+
+For the same spatial location $(lon_i,lat_r)$, the average of all monthly total precipitation heights for the month $m$ observed in the different years in the training data $y\:in\:\: Y_{training}={\{1996,1997,\cdots,2012\}}$ can then be calculated as:\newline
+
+\begin{equation}\label{eq:typical_monthly_total_precipitation}
+\overline{P}_{(lon_i,lat_r,m)} = \frac{1}{N_{lon_i,lat_r,m}}\sum_{y\in Y}P_{(lon_i,lat_r,y,m)}
+\end{equation}
+
+where $N_{lon_i,lat_r,m}$ is the number of years $y$, for whom precipitation height has been observed in the month $m$ at the location $(lon_i,lat_r)$.
+
+The equation \ref{eq:typical_monthly_total_precipitation} calculates the average monthly total precipitation height of month $m$ at location $(lon_i,lat_r)$ across all years $y$, which represents the typical total precipitation height for that month at that location.\footnote{Note that the monthly typical total precipitation height is very likely unique for each spatial location.}
+
+A PE then is classified as an EPE, if:
+
+\begin{equation}\label{eq:classification_threshold}
+P_{(lon_i,lat_r,y,m,d)} > \overline{P}_{(lon_i,lat_r,m)}
+\end{equation}
+
+The standard of truth for the classification of a PE as an EPE hence is:
+
+\begin{equation}\label{eq:standard_of_truth}
+EPE_{(lon_i,lat_r,y,m,d)} =
+\begin{cases}
+1,\qquad\text{if}\:P_{(lon_i,lat_r,y,m,d)} > \overline{P}_{(lon_i,lat_r,m)}\ \\
+0,\qquad\text{otherwise}
+\end{cases}
+\end{equation}
+
+where $EPE$ is a binary variable that indicates whether the PE is classified as an EPE or not.
 
 \endgroup
 
@@ -200,10 +229,12 @@ A specific percentile of the empirical distribution of precipitation could be us
 \begingroup
 \justify
 
-The following section will argue, that on a conceptual level, the problem of modelling the spatio-temporal classification of PE as EPE can be approached reasonably by building a generalized additive mixed model with a logit link function, which is then superimposed by a filtering probability threshold layer. The threshold layer superimposing the built GAMM is thereby ultimately responsible for separating the EPE from the PE based on the criteria, whether the predicted probability succeeds the threshold layer or not. 
-In this context, \textit{reasonably} refers to the fact, that by building a classifier based on a GAMM, all of the essential criteria for the model can be met. The criteria in turn follow from the general objective of this thesis, to built a classifier model that facilitates flood risk management, as follows: 
-Firstly, the classifier model has to be capable of translating an input of the spatial and temporal location of the precipitation event in question into a classification decision. In terms of the model, this relates to the presence of both the spatial and temporal location of the event as covariates. Modelling the classification spatio-temporally does also neccessitate the model to identify spatial, temporal and spatio-temporal dependencies within the data, since neglecting those dependencies would result in structurally classification decisions / prediction errors. Next to the space-time character of the model, more generally, it should also be possible to train the classifier to identify non-linear relations between the classification decision and the covariates. Research indicates in fact, that the effect of variables such as altitude of spatial locations and mean-temperature, which are generally considered strong predictor variables, is non-linear. A classifier model finally involves a binary response, where in this case, a predicted value of 1 translates into "PE in class of EPE", whereas a predicted value of zero translates into "PE not in class of EPE". It comes therefore naturally, that the respective model must be able to handle a binary response variable conceptually.\newline
-One way to show how a classifier based on a GAMM with a logit link meets all these criteria is to start with the arguably most powerful, prevelant and comprehensible regression model, the classical linear regression model. Although the classical linear regression model only meets one requirement of modelling the dependency of precipitation events on spatial and temporal covariates, it can be shown, that following successive interventions within the model, step by step more of the requirements to the classifier model are met, such that the classifier based on the GAMM with logit-link ultimately is developed conceptually as a model to meet all criteria.
+The following section will argue that, on a conceptual level, the problem of modeling the spatio-temporal classification of PE as EPE can be approached reasonably by building a generalized additive mixed model (GAMM) with a logit link function, which is then superimposed by a filtering probability threshold layer. The threshold layer superimposing the built GAMM is ultimately responsible for separating the EPE from the PE based on the criterion of whether the predicted probability exceeds the threshold layer or not.\newline
+In this context, "reasonably" refers to the fact that building a classifier based on a GAMM can meet all the essential criteria for the model, which follow from the general objective of this thesis to build a classifier model that facilitates flood risk management, as follows:\newline
+Firstly, the classifier model has to be capable of translating an input of the spatial and temporal location of the PE into a classification decision. This relates to the presence of both the spatial and temporal location of the event as covariates in the model. Modelling the classification spatio-temporally also necessitates identifying spatial, temporal, and spatio-temporal dependencies within the data, since neglecting those dependencies would result in structurally incorrect classification decisions/prediction errors.\newline
+Next, in addition to the spatio-temporal character of the model, it should also be possible to train the classifier to identify non-linear relations between the classification decision and the covariates. Research indicates that the effect of variables such as altitude of spatial locations and mean temperature, which are generally considered strong predictor variables, is non-linear.\newline
+Finally, a classifier model involves a binary response, where in this case, a predicted value of 1 translates into "PE in class of EPE," whereas a predicted value of 0 translates into "PE not in class of EPE." The respective model must, therefore, be able to handle a binary response variable conceptually.\newline
+One way to show how a classifier based on a GAMM with a logit link meets all these criteria is to start with the classical linear regression model. Although the classical linear regression model only meets one requirement of modeling the dependency of PEs on spatial and temporal covariates, it can be shown that following successive interventions within the model, step by step more of the requirements for the classifier model are met, such that the classifier based on the GAMM with logit-link is ultimately developed conceptually as a model to meet all criteria.
 
 \endgroup
 
@@ -212,18 +243,12 @@ One way to show how a classifier based on a GAMM with a logit link meets all the
 \begingroup
 \justify
 
-Classical linear regression involves modelling the model response as the conditional expected value of a variable and this expected value as being dependent on one or more covariates in a linear fashion, plus error term. The random error terms are assumed to be identically and independently Gaussian distributed. The covariates form a linear predictor, such that based on the modelled dependence of the response on both the random errors and the linear predictor, the response is conceptualized as a random variable as well, whose distribution, beyond adopting the i.i.d. features, is additionally influenced by the linear predictor. Importantly, as the error terms conceptually account for random, unsystemic differences between the response and the linear predictor as well as measuring errors they are assumed to be independent not only of themselves, but also of the linear predictor. Those characteristics collectively render the linear regression fundamentally inadequate to the present purpose: For once is the response as mentioned assumed to be Gaussian distributed, whereas for a binary response such as a classification decision derived from a probability threshold layer, a binomial distribution need be assumed. In addition to this reason for the inaptitude for modelling a binary response like the classification of PE as EPE, a second reason stems from the inconsistency of strong evidence for the existence of spatial, temporal and spatio-temporal dependencies between precipitation heights and within the conditional dependency of the precipitation height of the covariates on the one side and the assumed independence among the responses and among the error terms on the other side: If it is (safely) assumed, that the responses (the classification decisions) are non-independent - autocorrelation - then this dependencies have to either be captured through the linear predictor or the error terms. As the linear predictor however is inapt for modelling any other than linear effects of the covariates on the responses, these independencies would conceptually be assumed to be reflected in the error terms. The dependencies would therefore reflect in the error terms, particularly as autocorrelation of the error terms, which contradicts the assumption of i.i.d. error terms. Hence, as linear regression is by construct inapt to meet the  requirements of modelling a binary response and modelling spatio-temporal dependencies, and as this inaptitude finally also extends to modelling non-linear dependencies, linear regression overall is ill-suited for modelling the classification of PE as EPE, as this thesis is set out for.
+Classical linear regression involves modeling the model response as the conditional expected value of a variable, with this expected value being dependent on one or more covariates in a linear fashion, plus an error term.\footnote{For the model equation, see equation  \ref{eq:linear_regression_model_equation}} The random error terms are assumed to be identically and independently Gaussian-distributed. The covariates form a linear predictor such that, based on the modeled dependence of the response on both the random errors and the linear predictor, the response is conceptualized as a random variable as well, whose distribution, beyond adopting the i.i.d. features, is additionally influenced by the linear predictor. Importantly, as the error terms conceptually account for random, unsystematic differences between the response and the linear predictor, as well as measurement errors, they are assumed to be independent not only of themselves but also of the linear predictor. These characteristics collectively render linear regression fundamentally inadequate for the present purpose. Firstly, the response is assumed to be Gaussian-distributed, whereas for a binary response, such as a classification decision derived from a probability threshold layer, a binomial distribution needs to be assumed. Secondly, strong evidence exists for the existence of spatial, temporal, and spatio-temporal dependencies between precipitation heights and within the conditional dependency of the precipitation height of the covariates on one side and the assumed independence among the responses and among the error terms on the other side. If the responses (the classification decisions) are non-independent (autocorrelation), then these dependencies need to be captured through the linear predictor or the error terms. As the linear predictor, however, is inadequate for modeling any other than linear effects of the covariates on the responses, these dependencies would conceptually be assumed to be reflected in the error terms. The dependencies would therefore reflect in the error terms, particularly as autocorrelation of the error terms, which contradicts the assumption of i.i.d. error terms. Hence, as linear regression is, by construction, inadequate to meet the requirements of modeling a binary response and modeling spatio-temporal dependencies, and as this inadequacy finally also extends to modeling non-linear dependencies, linear regression overall is ill-suited for modeling the classification of PE as EPE, as this thesis is set out for.
 
 \endgroup
 
 ## Logistic Regression Models as \textit{Generalized} Linear Models
 
-\begingroup
-\justify
-
-The classical linear regression model can still at least predict some response from the spatial and temporal location of a PE. With changes of the model structures, it can be raised to a model with a binomially distributed binary response variable such as decisions of classification of PE as EPE. To achieve such a generalization of the linear model, first of all the error term is dropped from the right hand side, such that the response is no longer modeled as dependent on the linear predictor plus an error term, but only on the linear predictor. Instead, the response itself is modeled to consist of a variable plus an error term. In the next step the response is modelled neither a continuous nor binary variable, but as the so called log-odds (logit) of the probability, that a PE belongs to the class of EPE. This step allows for modelling a continuous response as depending on a linear predictor and is one of two pivot points of the generalization. For the final step of the generalization, both sides of the model equation - the response and the linear predictor - are supplied to the inverse the of logit link-function. As a result, the model response is now a probability value, which is modeled as dependent of the inverse of the logit link-function applied to a linear predictor. This generalization yields a probability estimation model, whose predictions or responses respectively are assumed to be binomially distributed. From here, it would only take the small step of superimposing a threshold-layer to raise the logistic regression model with its binomially distributed probability responses to a classifier model with a binomially distributed binary decision of the classification of PE as EPE as response. As a consequence of these steps of generalization, within the linear predictor the coefficients are no longer additively concatenated, which is the key condition for the application of the method of least squares to estimate the coefficients. Instead, the model (coefficients) are estimated via maximizing the model likelihood. 
-
-\endgroup
 
 ## Generalized \textit{Additive Mixed} Models (GAMM) with a logit link-function and spline-based smooth functions as non-linear special cases of GAMMs
 
@@ -257,64 +282,306 @@ Within this thesis, I assert, that the clasifier models to be built have to acco
 \end{center}
 
 \vspace{-35pt}
-\begin{align}
-\textbf{Precipitation Height} &= \mathbf{\beta_0} + \beta_1 \textbf{Mean Temperature} + \beta_2 \textbf{Altitude} \notag \\
-&\qquad + \beta_3 \textbf{Longitude} + \beta_4 \textbf{Latitude} + \beta_5 \textbf{Julian Date} + \mathbf{\epsilon}
-\end{align} 
-
-\begin{center}
-\rule{1\textwidth}{0.4pt}
-\end{center}
-
-\newpage
-
-### Logistic Regression Model 
-
-\begin{center}
-\rule{1\textwidth}{0.4pt}
-\end{center}
-
-\vspace{-35pt}
-\begin{equation}
-\textbf{p(PE in class EPE)} = 
-\scalebox{2}{s}\left(log\left(\frac{p}{1-p}\right)\right) = 
-\scalebox{2}{s} \left(
+\begin{equation}\label{eq:linear_regression_model_equation}   
 \begin{aligned}
-& \mathbf{\beta_0} + \vphantom{\sum} \beta_1 \textbf{Mean Temperature} + \beta_2 \textbf{Altitude} \\
-& \qquad + \beta_3 \textbf{Longitude} + \beta_4 \textbf{Latitude} \\
-& \qquad\qquad + \beta_5 \textbf{Julian Date}
+\textbf{Precipitation Height} &= \mathbf{\beta_0} + \beta_1 \textbf{Mean Temperature} + \beta_2 \textbf{Altitude} \\
+& + \beta_3 \textbf{Longitude} + \beta_4 \textbf{Latitude} + \beta_5 \textbf{Julian Date} + \mathbf{\epsilon}
 \end{aligned}
-\right)
 \end{equation}
-\vspace{-35pt}
 
 \begin{center}
 \rule{1\textwidth}{0.4pt}
 \end{center}
+
+\center{\textbf{with assumptions}}
+
+\begin{itemize}[label={}]
+\item \textbf{Linearity}:\\
+  \begin{adjustwidth}{1cm}{0cm} $y_{(lon_i,lat_r,jul_a)} = \beta_0 + \sum_{j=1}^{p} \beta_j x_{(lon_i,lat_r,jul_a,j)} + \epsilon_{(lon_i,lat_r,jul_a)}$ \end{adjustwidth}
+\item \textbf{Independence}:\\
+  \begin{adjustwidth}{1cm}{0cm} $E(\epsilon_{(lon_i,lat_r,jul_a)}) = 0$, $Var(\epsilon_{(lon_i,lat_r,jul_a)}) = \sigma^2$, $Cov(\epsilon_{(lon_i,lat_r,jul_a)}, \epsilon_{(lon_k,lat_s,jul_b)}) = 0$  $\forall\:(lon_i,lat_r,jul_a) \neq (lon_k,lat_s,jul_b)$ \end{adjustwidth}
+\item \textbf{Homoscedasticity}:\\
+  \begin{adjustwidth}{1cm}{0cm} $Var(\epsilon_{(lon_i,lat_r,jul_a)}) = \sigma^2$  $\forall\:(lon_i,lat_r,jul_a)\in\:SP$ \end{adjustwidth}
+\item \textbf{Normality}:\\
+  \begin{adjustwidth}{1cm}{0cm} $\epsilon_{(lon_i,lat_r,jul_a)} \sim N(0, \sigma^2)$ \end{adjustwidth}
+\item \textbf{No perfect multicollinearity}:\\
+  \begin{adjustwidth}{1cm}{0cm} $\operatorname{rank}(X) = p$ \end{adjustwidth}
+\item \textbf{No autocorrelation}:\\
+\begin{minipage}{0.5\textwidth}
+$Cov(\epsilon_{(lon_i,lat_r,jul_a)}, \epsilon_{(lon_k,lat_s,jul_b)}) = 0\qquad\forall$
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+$
+\begin{pmatrix}
+(lon_i - lon_k) \\
+(lat_r - lat_s) \\
+(jul_a - jul_b)
+\end{pmatrix}
+\neq \textbf{0}$
+\end{minipage}
+\end{itemize}
 
 \center{\textbf{Declaration of Symbols and Equation Components}}
 
-\scalebox{1.25}{$\beta_0,\beta_1,\beta_2,\beta_3,\beta_4$ are \textit{estimated} per \textit{Maximum Likelihood Estimation}},
+\begin{itemize}[label={}]
+\item \textbf{Equation} \ref{eq:linear_regression_model_equation}
+\item $\mathrm{Precipitation\:Height}$:
+\begin{itemize}[label={}]
+\item Response
+\end{itemize}
+\item $\beta_0$:
+\begin{itemize}[label={}]
+\item Intercept parameter.
+\end{itemize}
+\item $\beta_1$:
+\begin{itemize}[label={}]
+\item Coefficient for $Mean Temperature$.
+\end{itemize}
+\item $\beta_2$:
+\begin{itemize}[label={}]
+\item Coefficient for $Altitude$.
+\end{itemize}
+\item $\beta_3$:
+\begin{itemize}[label={}]
+\item Coefficient for $Longitude$.
+\end{itemize}
+\item $\beta_4$:
+\begin{itemize}[label={}]
+\item Coefficient for $Latitude$.
+\end{itemize}
+\item $\beta_5$:
+\begin{itemize}[label={}]
+\item Coefficient for $Julian Date$.
+\end{itemize}
+\item $\epsilon$:
+\begin{itemize}[label={}]
+\item Error term.
+\end{itemize}
+\item \textbf{Assumptions}
+\begin{itemize}[label={}]
+\item Linearity:
+\begin{itemize}[label={}]
+\item $y_{(lon_i,lat_r,jul_a)}$:
+\begin{adjustwidth}{0.5cm}{0cm} Response. \end{adjustwidth}
+\item $\beta_j$:
+\begin{adjustwidth}{0.5cm}{0cm} Coefficient for the $j$-th predictor variable. \end{adjustwidth}
+\item $x_{(lon_i,lat_r,jul_a,j)}$:
+\begin{adjustwidth}{0.5cm}{0cm} value of $j$ -th predictor variable at space-time location $(lon_i,lat_r,jul_a)$. \end{adjustwidth}
+\end{itemize}
+\item Independence:
+\begin{itemize}[label={}]
+\item $E(\epsilon_{(lon_i,lat_r,jul_a)})$:
+\begin{adjustwidth}{0.5cm}{0cm} Expected value of error term for precipitation height observed at space-time location. \end{adjustwidth}
+\item $Var(\epsilon_{(lon_i,lat_r,jul_a)})$:
+\begin{adjustwidth}{0.5cm}{0cm} Variance of error term at space-time location. \end{adjustwidth}
+\item $Cov(\epsilon_{(lon_i,lat_r,jul_a)}, \epsilon_{(lon_k,lat_s,jul_b)})$:
+\begin{adjustwidth}{0.5cm}{0cm} Covariance of error terms between two space-time locations. \end{adjustwidth}
+\end{itemize}
+\item Homoscedasticity:
+\begin{itemize}[label={}]
+\item $\sigma^2$:
+\begin{adjustwidth}{0.5cm}{0cm} Constant variance of error term. \end{adjustwidth}
+\item $(lon_i,lat_r,jul_a)\in:SP$:
+\begin{adjustwidth}{0.5cm}{0cm} Space-time locations as elements of the space-time domain derived from the combination of the two-dimensional spatial domain (longitude,latitude) and the temporal domain made up of julian dates. \end{adjustwidth}
+\end{itemize}
+\item Normality:
+\begin{itemize}[label={}]
+\item $\epsilon_{(lon_i,lat_r,jul_a)}$:
+\begin{adjustwidth}{0.5cm}{0cm} Error term. \end{adjustwidth}
+\item $N(0, \sigma^2)$:
+\begin{adjustwidth}{0.5cm}{0cm} Normal distribution with mean $0$ and variance $\sigma^2$. \end{adjustwidth}
+\end{itemize}
+\item No perfect multicollinearity:
+\begin{itemize}[label={}]
+\item $\operatorname{rank}(X)$:
+\begin{adjustwidth}{1cm}{0cm} Rank of the design matrix $X$. \end{adjustwidth}
+\item $p$:
+\begin{adjustwidth}{1cm}{0cm} Number of predictor variables. \end{adjustwidth}
+\end{itemize}
+\item No autocorrelation:
+\begin{itemize}[label={}]
+\item $Cov(\epsilon_{(lon_i,lat_r,jul_a)}, \epsilon_{(lon_k,lat_s,jul_b)})$:
+\begin{adjustwidth}{1cm}{0cm} Covariance of error terms. \end{adjustwidth}
+\item $\begin{pmatrix}(lon_i - lon_k) \ (lat_r - lat_s) \ (jul_a - jul_b)\end{pmatrix}$:
+\begin{adjustwidth}{1cm}{0cm}
+Vector of differences in longitude, latitude, and Julian date between two locations and/or time points. \end{adjustwidth}
+\end{itemize}
+\end{itemize}
+\end{itemize}
 
-$P(EPE_i | \textbf{x}_i, \beta) = p_i^{EPE}(1-p_i)^{1-EPE}$ is the likelihood of a single classification decision 
+\newpage
 
-$p_i = \frac{1}{1 + e^{-(\beta_0 + \beta_1x_{i1} + \beta_2x_{i2} + \beta_3x_{i3} + \beta_4x_{i4} + \beta_5x_{i5})}}$ is the predicted probability, that an EPE occurs at spatio-temporal location i 
+### Logistic Regression Model
 
-$L(\beta_0, \beta_1, \beta_2, \beta_3, \beta_4, \beta_5) = \prod_{i=1}^{n} P(EPE_i | \textbf{x}_i, \beta) = \prod_{i=1}^{n} p_i^{EPE_i}(1-p_i)^{1-EPE_i}$
+The classical linear regression model can still generate predictions from the spatial and temporal location of a PE. And with changes to the model structure, it can be transformed into a probability estimation model. Although this logistic regression model does not model the binary variable of classification decisions directly, it generates estimations for the probabilities, that a PE is classified as an EPE. To take the final step to model the binary classification variables finally as a model response that depends on a linear predictor then would only require superimposing a probability-threshold layer onto the predictions of the logistic regression model.\newline
+But to achieve such a generalization of the linear model towards the logistic regression model, firstly the error term is dropped from the right-hand side, so that compared to linear regression, the model response is no longer modeled as dependent on the linear predictor plus an error term, but only on the linear predictor.\newline
+The core acts of the generalization then, which effectively allow to model classification probabilities $p(PE_{(lon_i,lat_r,jul_a)}\:in\:class\:EPE)\:=\:p_{(lon_i,lat_r,jul_a)}$ as dependent on a linear predictor, involve\newline
+\vspace{-0.75cm}
+\begin{itemize}
+\item observations of these probabilities in the data
+\item a logit-function $logit(p_{(lon_i,lat_r,jul_a)}) = \log\left(\frac{p_{(lon_i,lat_r,jul_a)}}{1-p_{(lon_i,lat_r,jul_a)}}\right)$, which projects the observed probabilities onto log-odds(logit) and
+\item a sigmoid function S of the form $S\left(logit(p_{(lon_i,lat_r,jul_a)})\right)=\frac{1}{1 + e^{logit\left(p_{(lon_i,lat_r,jul_a)}\right)}}=p_{(lon_i,lat_r,jul_a)}$, that is the inverse of the logit-function and returns probabilities with log-odds as input
+\end{itemize}
+\vspace{-0.5cm}
+and the concept is as follows:\newline
+It need to be noted first, that the primary concern with modeling a binary response per linear regression had been, that it results in systemic error. The logit-function solves this particular problem by projecting the probability values on a continuous scale from $-\infty$ to $\infty$, such that the resulting continuous log-odds can be modeled as dependent on a linear predictor. Since the log-odds are not the variable of interest however, the logit's inverse function, $S$, is applied on both sides of the model equation. As a consequence, within the logistic regression model, the variable of interest, the probabilities $p_{(lon_i,lat_r,jul_a)}$ are modeled as dependent on the inverse logit function $S$ with the logg-odds as the model argument. And since the log-odds were modeled as dependent on a linear predictor in the first place, the model equation presents itself as 
+
+\begin{center}
+\rule{1\textwidth}{0.4pt}
+\end{center}
+
+\begin{equation}\label{eq:logistic_regression_model_equation}
+\begin{split}
+p(PE_{(lon_i,lat_r,jul_a)} \textrm{ in class EPE}) &=  
+\scalebox{2}{s}\left(\log\left(\frac{p_{(lon_i,lat_r,jul_a)}}{1-p_{(lon_i,lat_r,jul_a)}}\right)\right) \\
+&= \scalebox{2}{s} \left(
+\begin{aligned}
+& \beta_0 + \vphantom{\sum} \beta_1 \textrm{Mean Temperature}_{(lon_i,lat_r,jul_a)} + \beta_2 \textrm{Altitude}_{(lon_i,lat_r,jul_a)} \\
+& + \beta_3 \textrm{Longitude}_{(lon_i,lat_r,jul_a)} + \beta_4 \textrm{Latitude}_{(lon_i,lat_r,jul_a)} \\
+& + \beta_5 \textrm{Julian Date}_{(lon_i,lat_r,jul_a)}
+\end{aligned}
+\right)
+\end{split}
+\end{equation}
+
+\begin{center}
+\rule{1\textwidth}{0.4pt}
+\end{center}
+
+\center{\textbf{where}}
+
+\begin{justify}
+\begin{itemize}[label={}]
+\item \scalebox{1.25}{$\beta_0,\beta_1,\beta_2,\beta_3,\beta_4$ are \textit{estimated} per \textit{Maximum Likelihood Estimation}} \\
+\item
+\begin{align}
+\begin{split}
+p_{(lon_i,lat_r,jul_a)} &= \biggl(1+e^{-(\beta_0 + \beta_1MeanTemperature_{(lon_i,lat_r,jul_a)} + \beta_2Altitude_{(lon_i,lat_r,jul_a)} + \beta_3Longitude_{(lon_i,lat_r,jul_a)})} \\
+&\qquad \times e^{-(\beta_4Latitude_{(lon_i,lat_r,jul_a)} + \beta_5JulianDate_{(lon_i,lat_r,jul_a)})}\biggr)^{-1}
+\end{split}
+\end{align} is the model prediction of the probability, that the PE at spatio-temporal location $(lon_i,lat_r,jul_a)$ is an EPE 
+\item 
+\begin{equation}
+P(EPE_{(lon_i,lat_r,jul_a)} | \textbf{x}_{(lon_i,lat_r,jul_a)}, \beta) = p_{(lon_i,lat_r,jul_a)}^{EPE(lon_i,lat_r,jul_a)_{}}(1-p_{(lon_i,lat_r,jul_a)})^{1-EPE_{(lon_i,lat_r,jul_a)}} \\
+\end{equation} is the likelihood of a single classification decision
+\item 
+\begin{equation}
+\begin{aligned}
+L(\beta_0, \beta_1, \beta_2, \beta_3, \beta_4, \beta_5) &= {\displaystyle \prod_{(lon_i,lat_r,jul_a)\in\:SP}} P(EPE_{(lon_i,lat_r,jul_a)} | \textbf{x}_{(lon_i,lat_r,jul_a)}, \beta) \\
+&=  {\displaystyle \prod_{(lon_i,lat_r,jul_a)\in\:SP}} p_{(lon_i,lat_r,jul_a)}^{EPE_{(lon_i,lat_r,jul_a)}}(1-p_{(lon_i,lat_r,jul_a)})^{1-EPE_{(lon_i,lat_r,jul_a)}}
+\end{aligned} 
+\end{equation} is the likelihood function or the likelihood of the entire training data, respectively 
+\end{itemize}
+\end{justify}
+
+\begin{equation}
+\boldsymbol{\beta}_c = \min_{\boldsymbol{\beta}}\sum_{(lon_i,lat_r,jul_a)\in\:SP}w_{(lon_i,lat_r,jul_a),c}\left(EPE_{(lon_i,lat_r,jul_a)}-x_{(lon_i,lat_r,jul_a)}^{T}\beta\right)^2 
+\end{equation} is the estimate of the $\boldsymbol{\beta}$ through $Iteratively\:Reweighted\:Least\:Squares$
 
 \newpage
 
 ### Generalized Additive Mixed Model 
 
+\begingroup
+\justify
+
+\begin{center}
+\rule{1\textwidth}{0.4pt}
+\end{center}
+
+\begin{equation}\label{eq:gamm_model_equation}
+\begin{aligned}
+\text{logit}(p(PE_{lon_i,lat_r,jul_a}\:is\:in\:class\:EPE)) &= \beta_0 + f_{lon}(lon_{lon_i,lat_r,jul_a}) + f_{lat}(lat_{lon_i,lat_r,jul_a}) \\
+&\quad + f_{jul}(jul_{lon_i,lat_r,jul_a}) + f_{mean\_temp}(mean\_temp_{lon_i,lat_r,jul_a}) \\ &\quad + f_{altitude}(altitude_{lon_i,lat_r,jul_a}) + b_{lon_i,lat_r,jul_a}
+\end{aligned}
+\end{equation}
+
+\begin{center}
+\rule{1\textwidth}{0.4pt}
+\end{center}
+
+where $logit(p_i) := \ln\left(\frac{p_i}{1-p_i}\right)$ is the logit function of the predicted probability of an event $i$ belonging to the class, $b_i$ is a random effect term to account for unobserved heterogeneity in the data, and $f_{lon}, f_{lat}, f_{jul}, f_{mean_temp},$ and $f_{altitude}$ are smooth functions of the corresponding predictor variables.
+
+\begin{equation}\label{eq:predicted_probability_gamm}
+p_i = \frac{1}{\splitfrac{1 + \exp(-(\beta_0 + f_{lon}(lon_i) + f_{lat}(lat_r)}{ + f_{jul}(jul_a) + f_{mean\_temp}(mean\_temp_{i}) + f_{altitude}(altitude_i))}}
+\end{equation}
+
+where $lon_{(lon_i,lat_r,jul_a)}$, $lat_{(lon_i,lat_r,jul_a)}$, $jul_{(lon_i,lat_r,jul_a)}$, $mean\_temp_{(lon_i,lat_r,jul_a)}$, and $altitude_{(lon_i,lat_r,jul_a)}$ are the values of the longitudinal degree, latitudinal degree, Julian date, mean daily temperature, and altitude predictor variables for precipitation even $PE_{(lon_i,lat_r,jul_a)}$, and $f{long_degree}$ to $f{altitude}$ are smooth functions of these variables.\newline
+To convert this GAMM into a classifier model, we add a threshold layer, which classifies events as belonging to the class if their predicted probability of belonging to the class exceeds the threshold:
+
+The classifier model with the threshold layer can be expressed as:
+
+\begin{equation}\label{eq:classifier_layer_gamm}
+y_i =
+\begin{cases}
+1, \qquad \text{if } p_i > \theta \\
+0, \qquad \text{otherwise}
+\end{cases}
+\end{equation}
+
+where $y_i$ is the predicted class label for event $i$, and $\theta$ is the chosen threshold value.
+
+\endgroup
+
+\newpage
+
+### Inverse Distance Weighting
+
+\begin{flushleft}
+\textit{Everything is related to everything else, but near things are more related than distant things.} 
+\begin{adjustwidth}{1cm}{0cm} - Waldo Tobler (1970) \end{adjustwidth} 
+\end{flushleft}
+
+\begin{justify}
+The Generalized Additive Mixed Model with a Logit Link function, as expressed in the subsection above, relies on an algorithm to identify the dependence of precipitation height on mean temperature, altitude, spatial and temporal location. This dependence is broadly speaking expressed as the estimated coefficients and respective smoothing terms. As described, it is indeed suitable for picking up on spatial and temporal dependencies due to its unique modelling concept. However, the mathematical foundation of the formulation and estimation of a GAMM is not as easily accessible as another non-statistical, deterministic interpolation method called "Inverse Distance Weighting, which in comparison requires substantially less statistical expertise.\newline
+Compared to the aforementioned models, Inverse Distance Weighting does not model the conditional expected value of a variable like precipitation height, nor the conditional probability for a specific observation to be a member of a certain class. It models the variable based on a characteristic of its own univariate distribution: its neighborhood in terms of spatial and temporal distance. For any spatio-temporal location, the existing available observations are evaluated against their relative spatial and temporal distance to the respective spatio-temporal location. The model prediction of the variable for the respective location is then determined as a weighted average of all available observed values minus any existing observations at the location in question.
+\end{justify}
+
+\center{\rule{1\linewidth}{0.5pt}}
+
+\begin{equation}\label{eq:inverse_distance_weighting_interpolated_precipitation_equation}
+\widehat{rain}_{(lon_i,lat_r,jul_a)} := \sum_{(lon_k,lat_s,jul_b)\in SP} \left(w_{((lon_k,lat_s,jul_b),(lon_i,lat_r,jul_a))} \cdot rain_{(lon_k,lat_s,jul_b)}\right)
+\end{equation}
+
+\center{\rule{1\linewidth}{0.5pt}}
+
+\center{\textbf{where}}
+
+\begin{equation}\label{eq:euclidean_distance_equation}
+d_{((lon_i,lat_r,jul_a),(lon_k,lat_s,jul_b))}^{\alpha} := \left(\sqrt{(lon_i-lon_k)^2 + (lat_r-lat_s)^2 + C(jul_a-jul_b)^2}\right)^{\alpha}
+\end{equation}
+
+\center{\textbf{and}}
+
+\begin{equation}\label{eq:weight_equation}
+\begin{aligned}
+w_{((lon_i,lat_r,jul_a),(lon_k,lat_s,jul_b))} := \frac{d_{((lon_i,lat_r,jul_a),(lon_k,lat_s,jul_b))}^{-\alpha}}{\sum_{(lon_k,lat_s,jul_b)\in EP} d_{((lon_i,lat_r,jul_a),(lon_k,lat_s,jul_b))}^{-\alpha}}
+\end{aligned}
+\end{equation}
+
+\vspace{0.75cm}
+
+\center{\textbf{Declaration of Symbols and Equation Components}}
+
+\begin{itemize}[label={}]
+\item $\mathbf{\widehat{rain}{(lon_i,lat_r,jul_a)}}$:\\
+  \begin{adjustwidth}{1cm}{0cm} The estimated precipitation height at a specific location and time, denoted by longitude $lon_i$, latitude $lat_r$, and Julian day $jul_a$. \end{adjustwidth}
+\item $\mathbf{\sum_{(lon_k,lat_s,jul_b)\in SP}}$:\\ 
+  \begin{adjustwidth}{1cm}{0cm} A summation over all the locations and times in a specific spatio-temporal domain $SP$ or set of all spatio-temporal locations, respectively. The location is denoted by longitude $lon_k$, latitude $lat_s$, and Julian day $jul_b$. \end{adjustwidth}
+\item $\mathbf{\left(w_{((lon_k,lat_s,jul_b),(lon_i,lat_r,jul_a))} \cdot rain_{(lon_k,lat_s,jul_b)}\right)}$:\\
+  \begin{adjustwidth}{1cm}{0cm} The product of two terms. The first term,                     $w_{((lon_k,lat_s,jul_b),(lon_i,lat_r,jul_a))}$, is a weight assigned to each location and time in $SP$ based on its distance from the location and time of interest. The second term, $rain_{(lon_k,lat_s,jul_b)}$, is the available observed precipitation height at that location and time. \end{adjustwidth}
+\end{itemize}
+
 \newpage
 
 ## Variation of Spatial, Temporal and Spatio-Temporal Covariability
 
-\justify{As a part of the general argument of this thesis, I had asserted, that there are spatial, temporal and spatio-temporal dependencies within the precipitation height data, which should be accounted for conceptually, when modelling the classification procedure. In this section, you can find equations, on which the calculation of the variation of covariability is based, which is then visualized and analyzed for the reason of demonstration of the earlier mentioned dependencies. Reflecting the different types of spatial, temporal and spatio-temporal covariability, the equations for the $\mathbf{empirical}$ $\mathbf{spatial}$ and $\mathbf{temporal}$ $\mathbf{Semivariogram}$, the $\mathbf{spatial}$ and $\mathbf{temporal}$ $\mathbf{covariancefunction}$ and the $\mathbf{spatio-temporal}$ $\mathbf{covariancefunction}$ are depicted and described in detail.} In this context, spatial, temporal and spatio-temporal dependency are understood to be patterns, where the similarity between observations decrease, as the distance increases between the obersvations's locations increase. These measures then can be calculate the variation in the covariability of the precipitation height data between a pair of spatial, temporal or spatio-temporal locations, as the distance between the paired locations change. As covariability is commonly used to indicate similarity in data, the variation of covariability as a function of spatial, temporal or spatio-temporal lags can hence be utilized for the assessment of the prevelance of the various types of dependencies.          
+\justify{As part of the general argument of this thesis, I have asserted that there are spatial, temporal, and spatio-temporal dependencies within the precipitation height data that should be conceptually accounted for when modelling the classification procedure. In this section, you can find equations on which the calculation of the variation of covariability is based, which is then visualized and analyzed to demonstrate the earlier-mentioned dependencies. Reflecting the different types of spatial, temporal, and spatio-temporal covariability, the equations for the empirical spatial and temporal semivariogram, the spatial and temporal covariance function, and the spatio-temporal covariance function are depicted and described in detail.\newline
+In this context, spatial, temporal, and spatio-temporal dependency are understood to be patterns where the similarity between observations decreases as the distance between the observation locations increases. These measures can then calculate the variation in the covariability of the precipitation height data between a pair of spatial, temporal, or spatio-temporal locations as the distance between the paired locations changes. As covariability is commonly used to indicate similarity in data, the variation of covariability as a function of spatial, temporal, or spatio-temporal lags can hence be utilized to assess the prevalence of the various types of dependencies.}       
 
 ### Haversine Formula: Calculating the distance between two pairs of angular coordinates
 
-A necessary requisite for the calculation of the variation of covariability however is to determine a concept for the various lags first, or in other words to decide upon a way to measure distance. For the spatial distance between two weather stations, the Haversine Formula is used to measure the distance between two points on the Earth's surface, based on angular coordinates. The Haversine Formula takes the curvature of the Earth's Surface into account and provides an estimate of the socalled great-circle distance between two points. With reference to quality of measurement concept, it exceeds for instance the euclidean distance, which assumes a flat sphere.
+A necessary prerequisite for calculating the variation of covariability is to determine a concept for the various lags first, or in other words, to decide on a way to measure distance. For the spatial distance between two weather stations, the Haversine Formula is used to measure the distance between two points on the Earth's surface based on angular coordinates. The Haversine Formula takes the curvature of the Earth's surface into account and provides an estimate of the so-called great-circle distance between two points. With reference to the quality of measurement concept, it exceeds, for instance, the Euclidean distance, which assumes a flat sphere.
 
 \newpage
 
@@ -323,10 +590,12 @@ A necessary requisite for the calculation of the variation of covariability howe
 \center{\rule{1\linewidth}{0.5pt}}
 
 \begin{equation}
-d = 2r\arcsin\left(\sqrt{\sin^2\left(\frac{\phi_2-\phi_1}{2}\right) + \cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\lambda_2-\lambda_1}{2}\right)}\right)
+d \coloneqq 2r\arcsin\left(\sqrt{\sin^2\left(\frac{\phi_2-\phi_1}{2}\right) + \cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\lambda_2-\lambda_1}{2}\right)}\right)
 \end{equation}
 
 \center{\rule{1\linewidth}{0.5pt}}
+
+\vspace{0.5cm}
 
 \center{\textbf{Declaration of Symbols and Equation Components}}
 
@@ -364,11 +633,15 @@ d = 2r\arcsin\left(\sqrt{\sin^2\left(\frac{\phi_2-\phi_1}{2}\right) + \cos(\phi_
 
 \center{\rule{1\linewidth}{0.5pt}}
 
-\begin{align}
-\gamma(d_{spatial},jul_a) &= \frac{1}{2|N(d_{spatial})|}\times\left(\sum_{(lon_r,lat_i),(lon_s,lat_k)\in\:N(d_{spatial})}\left(rain_{lon_r,lat_i,jul_a} - rain_{lon_s,lat_k,jul_a}\right)^2\right)
-\end{align}
+\begin{equation}\label{eq:empirical_spatial_semivariogram_equation}
+\begin{aligned}
+\gamma(d_{spatial},jul_a) &\coloneqq \frac{1}{2|N(d_{spatial})|}\times\left(\sum_{(lon_r,lat_i),(lon_s,lat_k)\in\:N(d_{spatial})}\left(rain_{lon_r,lat_i,jul_a} - rain_{lon_s,lat_k,jul_a}\right)^2\right)
+\end{aligned}
+\end{equation}
 
 \center{\rule{1\linewidth}{0.5pt}}
+
+\vspace{0.5cm}
 
 \center{\textbf{Declaration of Symbols and Equation Components}}
 
@@ -379,7 +652,7 @@ d = 2r\arcsin\left(\sqrt{\sin^2\left(\frac{\phi_2-\phi_1}{2}\right) + \cos(\phi_
 \item $\mathbf{\gamma(d_{spatial},jul_a)}$:\\
 \begin{adjustwidth}{1cm}{0cm} The semivariogram function for the precipitation height data over a given interval of spatia distance in kilometre $d_{spatial}$ on a given day $jul_a$. \end{adjustwidth}
 \item $\mathbf{d_{spatial}}$:\\
-\begin{adjustwidth}{1cm}{0cm} An interval of spatial distance between weather stations measured in kilometre within which the rainfall data are considered to be correlated. \end{adjustwidth}
+\begin{adjustwidth}{1cm}{0cm} An interval of spatial distance between weather stations measured in kilometre within which the precipitation height data are considered to be correlated. \end{adjustwidth}
 \item $\mathbf{N(d_{spatial})}$:\\
 \begin{adjustwidth}{1cm}{0cm} The set of pairs of weather stations, for whom the distance between them lies within the interval $d_{spatial}$. \end{adjustwidth}
 \item $\mathbf{|N(d_{spatial})|}$:\\
@@ -396,9 +669,11 @@ d = 2r\arcsin\left(\sqrt{\sin^2\left(\frac{\phi_2-\phi_1}{2}\right) + \cos(\phi_
 
 \vspace{20pt}
 \center{\rule{1\linewidth}{0.5pt}}
-\begin{align}
-\gamma(d_{julian},(lon_r,lat_i)) = \frac{1}{2|N(d_{julian})|}\times\left(\sum_{jul_a,jul_b\:\in\:N(d_{julian})}\left(rain_{lon_r,lat_i,jul_a} - rain_{lon_r,lat_i,jul_b}\right)^2\right)
-\end{align}
+\begin{equation}\label{eq: empirical_temporal_semivariogram_equation}
+\begin{aligned}
+\gamma(d_{julian},(lon_r,lat_i)) \coloneqq \frac{1}{2|N(d_{julian})|}\times\left(\sum_{jul_a,jul_b\:\in\:N(d_{julian})}\left(rain_{lon_r,lat_i,jul_a} - rain_{lon_r,lat_i,jul_b}\right)^2\right)
+\end{aligned}
+\end{equation}
 
 \center{\rule{1\linewidth}{0.5pt}}
 
@@ -425,16 +700,18 @@ d = 2r\arcsin\left(\sqrt{\sin^2\left(\frac{\phi_2-\phi_1}{2}\right) + \cos(\phi_
 ### Empirical Spatial Covariance Equation
 
 \center{\rule{1\linewidth}{0.5pt}}
-\begin{align}
-\hat{C}_{rain}^{\left(d_{julian}\right)}\left(\left(lon_r,lat_i\right),\left(lon_s,lat_k\right)\right)&=\frac{1}{T-d_{julian}}\times\Bigg(\sum_{jul_a=1+d_{julian}}^{T}\left(rain_{lon_r,lat_i,jul_a}-\hat{\mu}_{rain,temporal}(lon_r,lat_i)\right) \\ 
-&\qquad\left(rain_{lon_s,lat_k,jul_a-d_{julian}}-\hat{\mu}_{rain,temporal}(lon_s,lat_k)\right)\Bigg)
-\end{align}
+\begin{equation}\label{eq:empirical_spatial_covariance_function_equation}
+\begin{aligned}
+\widehat{C}_{rain}^{\left(d_{julian}\right)}\left(\left(lon_r,lat_i\right),\left(lon_s,lat_k\right)\right)&\coloneqq\frac{1}{T-d_{julian}}\times\Bigg(\sum_{jul_a=1+d_{julian}}^{T}\left(rain_{lon_r,lat_i,jul_a}-\widehat{\mu}_{rain,temporal}(lon_r,lat_i)\right) \\ 
+&\qquad\left(rain_{lon_s,lat_k,jul_a-d_{julian}}-\widehat{\mu}_{rain,temporal}(lon_s,lat_k)\right)\Bigg)
+\end{aligned}
+\end{equation}
 \center{\rule{1\linewidth}{0.5pt}}
 
 \center{\textbf{Declaration of Symbols and Equation Components}}
 
 \begin{itemize}[label={}]
-            \item$\mathbf{\hat{C}_{rain}^{(d_{julian})}}$:
+            \item$\mathbf{\widehat{C}_{rain}^{(d_{julian})}}$:
             \begin{adjustwidth}{1cm}{0cm} The estimated spatial covariance of the precipitation data for a given temporal distance $d_{julian}$. \end{adjustwidth}
             \item $\mathbf{(lon_r,lat_i)}$ and $\mathbf{(lon_s,lat_k)}$:\\ 
               \begin{adjustwidth}{1cm}{0cm} Two pairs of longitude and latitude coordinates. \end{adjustwidth}
@@ -444,7 +721,7 @@ d = 2r\arcsin\left(\sqrt{\sin^2\left(\frac{\phi_2-\phi_1}{2}\right) + \cos(\phi_
               \begin{adjustwidth}{1cm}{0cm} Is the temporal distance between the two sets of precipitation data being compared. \end{adjustwidth}
             \item $\mathbf{rain_{lon_r,lat_i,jul_a}}$:\\ 
               \begin{adjustwidth}{1cm}{0cm} Is the observation of precipitation height at the spatial location $(lon_r,lat_i)$ and time $jul_a$. \end{adjustwidth}
-            \item $\mathbf{\hat{\mu}_{rain,spatial}(lon_r,lat_i)}$ and $\mathbf{\hat{\mu}_{{rain,spatial}}(lon_s,lat_k)}$:\\ 
+            \item $\mathbf{\widehat{\mu}_{rain,spatial}(lon_r,lat_i)}$ and $\mathbf{\widehat{\mu}_{{rain,spatial}}(lon_s,lat_k)}$:\\ 
               \begin{adjustwidth}{1cm}{0cm} The estimated means of the precipitation data at locations $\mathbf{(lon_r,lat_i)}$ and $\mathbf{(lon_s,lat_k)}$,  respectively. \end{adjustwidth}
 \end{itemize}
 
@@ -453,17 +730,19 @@ d = 2r\arcsin\left(\sqrt{\sin^2\left(\frac{\phi_2-\phi_1}{2}\right) + \cos(\phi_
 ### Empirical Temporal Covariance Equation
 
 \center{\rule{1\linewidth}{0.5pt}}
-\begin{align}
-\hat{C}_{rain}^{\left(d_{spatial}\right)}\left(jul_a,jul_b\right)&=\frac{1}{|N(d_{spatial})|}\times\Bigg(\sum_{(lon_r,lat_i),(lon_s,lat_k)\:\in\:N(d_{spatial})}\left(rain_{lon_r,lat_i,jul_a}-\hat{\mu}_{rain,spatial}(jul_a)\right) \\ 
-&\qquad\left(rain_{lon_s,lat_k,jul_b}-\hat{\mu}_{rain,spatial}(jul_b)\right)\Bigg)
-\end{align}
+\begin{equation}\label{eq:empirical_temporal_covariance_function_equation}
+\begin{aligned}
+\widehat{C}_{rain}^{\left(d_{spatial}\right)}\left(jul_a,jul_b\right)&\coloneqq\frac{1}{|N(d_{spatial})|}\times\Bigg(\sum_{(lon_r,lat_i),(lon_s,lat_k)\:\in\:N(d_{spatial})}\left(rain_{lon_r,lat_i,jul_a}-\widehat{\mu}_{rain,spatial}(jul_a)\right) \\ 
+&\qquad\left(rain_{lon_s,lat_k,jul_b}-\widehat{\mu}_{rain,spatial}(jul_b)\right)\Bigg)
+\end{aligned}
+\end{equation}
 \center{\rule{1\linewidth}{0.5pt}}
 
 \center{\textbf{Declaration of Symbols and Equation Components}}
 
 
 \begin{itemize}[label={}]
-\item $\mathbf{\hat{C}{rain}^{\left(d{spatial}\right)}}$:
+\item $\mathbf{\widehat{C}{rain}^{\left(d{spatial}\right)}}$:
 \begin{adjustwidth}{1cm}{0cm}
 The estimated covariance of the precipitation data for a given spatial distance $d_{spatial}$.
 \end{adjustwidth}
@@ -487,7 +766,7 @@ A pair of longitude and latitude coordinates.
 \begin{adjustwidth}{1cm}{0cm}
 The precipitation height value at the location $(lon_r,lat_i)$ and time $jul_a$.
 \end{adjustwidth}
-\item $\mathbf{\hat{\mu}_{rain,temporal}(jul_a) \text{ and } \hat{\mu}_{rain,temporal}(jul_b)}$:
+\item $\mathbf{\widehat{\mu}_{rain,temporal}(jul_a) \text{ and } \widehat{\mu}_{rain,temporal}(jul_b)}$:
 \begin{adjustwidth}{1cm}{0cm}
 The estimated means of the precipitation height data for times $jul_a$ and $jul_b$, respectively.
 \end{adjustwidth}
@@ -498,16 +777,18 @@ The estimated means of the precipitation height data for times $jul_a$ and $jul_
 ### Empirical Spatio-Temporal Covariance Equation
 
 \center{\rule{1\linewidth}{0.5pt}}
-\begin{align}
-\hat{C}_{rain}(d_{spatial},d_{julian}) &= \frac{1}{|N(d_{spatial})|}\frac{1}{|N(d_{julian})|}\times \Bigg(\sum_{(lon_r,lat_i),(lon_s,lat_k)\:\in\:N(d_{spatial})}\:\sum_{jul_a,jul_b\:\in\:N(d_{julian})} \\ &\qquad\left(rain_{lon_r,lat_i,jul_a} - \hat{\mu}_{jul_a}\right)\left(rain_{lon_s,lat_k,jul_b} - \hat{\mu}_{jul_b}\right)\Bigg)
-\end{align}
+\begin{equation}\label{eq:empirical_spatio-temporal_covariance_function_equation}
+\begin{aligned}
+\widehat{C}_{rain}(d_{spatial},d_{julian}) &\coloneqq \frac{1}{|N(d_{spatial})|}\frac{1}{|N(d_{julian})|}\times \Bigg(\sum_{(lon_r,lat_i),(lon_s,lat_k)\:\in\:N(d_{spatial})}\:\sum_{jul_a,jul_b\:\in\:N(d_{julian})} \\ &\qquad\left(rain_{lon_r,lat_i,jul_a} - \widehat{\mu}_{jul_a}\right)\left(rain_{lon_s,lat_k,jul_b} - \widehat{\mu}_{jul_b}\right)\Bigg)
+\end{aligned}
+\end{equation}
 \center{\rule{1\linewidth}{0.5pt}
 
 \center{\textbf{Declaration of Symbols and Equation Components}}
 
 \vspace{-0.5cm}
   \begin{itemize}[label={}]
-              \item $\mathbf{\hat{C}_{rain}(d_{spatial},d_{julian})}$: \\ 
+              \item $\mathbf{\widehat{C}_{rain}(d_{spatial},d_{julian})}$: \\ 
                 \begin{adjustwidth}{1cm}{0cm} The covariance of the precipitation height data for a given spatial distance in kilometre $d_{spatial}$ and a given temporal distance $d_{julian}$.
                 \end{adjustwidth}
               \item $\mathbf{d_{spatial}}$:\\ 
@@ -537,17 +818,17 @@ The estimated means of the precipitation height data for times $jul_a$ and $jul_
               \item $\mathbf{rain_{lon_r,lat_i,jul_a}}$:\\ 
                 \begin{adjustwidth}{1cm}{0cm} The precipitation height value at the location $(lon_r,lat_i)$ and time $jul_a$.
                 \end{adjustwidth}
-              \item $\mathbf{\hat{\mu}_{rain,temporal}(jul_a)}$ and $\mathbf{\hat{\mu}_{rain,temporal}(jul_b)}$:\\
-                \begin{adjustwidth}{1cm}{0cm} The spatial mean of the rainfall data at time $jul_a$ and $jul_b$.
+              \item $\mathbf{\widehat{\mu}_{rain,temporal}(jul_a)}$ and $\mathbf{\widehat{\mu}_{rain,temporal}(jul_b)}$:\\
+                \begin{adjustwidth}{1cm}{0cm} The spatial mean of the precipitation height data at time $jul_a$ and $jul_b$.
                 \end{adjustwidth}
-              \item $\mathbf{(rain_{lon_r,lat_i,jul_a} - \hat{\mu}_{rain,temporal}(jul_a))}$:\\ 
-                \begin{adjustwidth}{1cm}{0cm} The deviation of the rainfall data from their mean at location $(lon_r,lat_i)$ and time $jul_a$.
+              \item $\mathbf{(rain_{lon_r,lat_i,jul_a} - \widehat{\mu}_{rain,temporal}(jul_a))}$:\\ 
+                \begin{adjustwidth}{1cm}{0cm} The deviation of the precipitation height data from their mean at location $(lon_r,lat_i)$ and time $jul_a$.
                 \end{adjustwidth}
-              \item $\mathbf{(rain_{lon_s,lat_k,jul_b} - \hat{\mu}_{rain,temporal}(jul_b))}$:\\ 
-                \begin{adjustwidth}{1cm}{0cm} The deviation of the rainfall data from their mean at location $(lon_s,lat_k)$ and time $jul_b$.
+              \item $\mathbf{(rain_{lon_s,lat_k,jul_b} - \widehat{\mu}_{rain,temporal}(jul_b))}$:\\ 
+                \begin{adjustwidth}{1cm}{0cm} The deviation of the precipitation height data from their mean at location $(lon_s,lat_k)$ and time $jul_b$.
                 \end{adjustwidth}
               \item The product of the two deviations:\\
-                \begin{adjustwidth}{1cm}{0cm} $(rain_{lon_r,lat_i,jul_a} - \hat{\mu}_{rain,temporal}(jul_a))(rain_{lon_s,lat_k,jul_b} - \hat{\mu}_{rain,temporal}(jul_b))$.
+                \begin{adjustwidth}{1cm}{0cm} $(rain_{lon_r,lat_i,jul_a} - \widehat{\mu}_{rain,temporal}(jul_a))(rain_{lon_s,lat_k,jul_b} - \widehat{\mu}_{rain,temporal}(jul_b))$.
                 \end{adjustwidth}
               \item $\mathbf{\frac{1}{2|N(d_{spatial})|}\frac{1}{2|N(d_{julian})|}}$:\\ 
                 \begin{adjustwidth}{1cm}{0cm} A normalization factor that scales the covariance to account for the number of pairs of weather stations, for whom the distance in kilometre evaluates to a value within $d_{spatial}$, while their temporal distance evaluates to value within the interval $d_{temporal}$ being used in the calculation.

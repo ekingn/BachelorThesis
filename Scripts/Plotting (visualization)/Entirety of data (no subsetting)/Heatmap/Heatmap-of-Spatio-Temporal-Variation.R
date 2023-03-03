@@ -31,26 +31,50 @@ Heatmap_Spatio_Temporal_Covariance <-
   
   geom_tile(aes(fill = abs(averaged_sumof_crossproducts))) +
   
-  # scale_x_discrete(name = ,
-  #                  limits = c("")) +
-  # 
-  # scale_y_discrete(name = , 
-  #                  limits = c("")) +
-  
-  scale_fill_viridis_c() + 
+  scale_x_discrete(limits = Spatial_Intervals_Factors$spatial_interval[1:10]) +
+
+  scale_fill_viridis_c() +  
   
   labs(x = "Interval of Distances in Kilometer", 
        y = "Interval of Distances in Julian Dates", 
-       fill = "Spatio-Temporal Covariability") +
+       fill = paste("Spatio-Temporal\n","Covariability")) +
   
   ggtitle("Variation in the Spatio-Temporal Covariability") + 
   
-  theme_bw()
+  theme(plot.title = element_text(size = 18,
+                                  hjust = 0.5,
+                                  face = "bold"),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.x = element_text(size = 12,
+                                   face = "bold"),
+        axis.text.y = element_text(size = 12,
+                                   face = "bold"),
+        axis.title.x = element_text(size = 14,
+                                    face = "bold",
+                                    vjust = -3),
+        axis.title.y = element_text(size = 14,
+                                    face = "bold",
+                                    vjust = 3),
+        panel.border = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.title = element_text(face = "bold",
+                                    hjust = 0),
+        legend.text = element_text(face = "bold"))
 
 Heatmap_Spatio_Temporal_Covariance 
 
 ggsave(plot = Heatmap_Spatio_Temporal_Covariance,
        filename = "Heatmap-Spatio-Temporal-Covariance.jpg",
        path = here("Output","JPGs","Heatmaps"),
-       width = 5,
+       width = 4,
        height = 2)
+
+Spatial_Intervals_Factors <-
+  
+  Intervals_of_Spatial_Distance %>% 
+  
+  select(spatial_interval) %>% 
+  
+  as_factor()

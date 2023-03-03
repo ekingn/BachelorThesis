@@ -13,7 +13,7 @@ Weather_Data_Daily_Resolution <-
   
   rename("mean_temperature" = "T",
          "minimum_temperature" = "Tmin", 
-         "maximum_temperature" = "Tmax") 
+         "maximum_temperature" = "Tmax")
 
 rm(WeatherGermany)
 
@@ -221,7 +221,7 @@ Weather_Data_Daily_Resolution <-
     Weather_Data_Daily_Resolution$month <=  8 & Weather_Data_Daily_Resolution$month >=  6 ~ "Summer",
     Weather_Data_Daily_Resolution$month <=  5 & Weather_Data_Daily_Resolution$month >=  3 ~ "Spring"))
 
-# Change column positionsf
+# Change column positions
 Weather_Data_Daily_Resolution <-
   
   Weather_Data_Daily_Resolution %>% 
@@ -246,7 +246,4 @@ Weather_Data_Daily_Resolution <-
          EPE,
          everything())
 
-# Create a data frame of class "spacetime: STIDF (Space Time Irregular Data Frame)"
-Weather_Data_Daily_Resolution_SpaceTime = stConstruct(x = Weather_Data_Daily_Resolution,
-                                                      space = c("lon","lat"),
-                                                      time = "calendar_date")
+
