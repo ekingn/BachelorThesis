@@ -391,38 +391,19 @@ $
 
 \begin{itemize}[label={}]
 \item \textbf{Equation} \ref{eq:linear_regression_model_equation}
-\item $\mathrm{Precipitation\:Height}$:
-\begin{itemize}[label={}]
-\item Response
+\begin{adjustwidth}{0.5cm}{0cm}
+\item $\mathrm{Precipitation\:Height}$: Response
+\item $\beta_0$: Intercept parameter.
+\item $\beta_1$: Coefficient for $Mean Temperature$.
+\item $\beta_2$: Coefficient for $Altitude$.
+\item $\beta_3$: Coefficient for $Longitude$.
+\item $\beta_4$: Coefficient for $Latitude$.
+\item $\beta_5$: Coefficient for $Julian Date$.
+\item $\epsilon$: Error term.
+\end{adjustwidth}
 \end{itemize}
-\item $\beta_0$:
+
 \begin{itemize}[label={}]
-\item Intercept parameter.
-\end{itemize}
-\item $\beta_1$:
-\begin{itemize}[label={}]
-\item Coefficient for $Mean Temperature$.
-\end{itemize}
-\item $\beta_2$:
-\begin{itemize}[label={}]
-\item Coefficient for $Altitude$.
-\end{itemize}
-\item $\beta_3$:
-\begin{itemize}[label={}]
-\item Coefficient for $Longitude$.
-\end{itemize}
-\item $\beta_4$:
-\begin{itemize}[label={}]
-\item Coefficient for $Latitude$.
-\end{itemize}
-\item $\beta_5$:
-\begin{itemize}[label={}]
-\item Coefficient for $Julian Date$.
-\end{itemize}
-\item $\epsilon$:
-\begin{itemize}[label={}]
-\item Error term.
-\end{itemize}
 \item \textbf{Assumptions}
 \begin{itemize}[label={}]
 \item Linearity:
@@ -450,6 +431,9 @@ $
 \item $(lon_i,lat_r,jul_a)\in:SP$:
 \begin{adjustwidth}{0.5cm}{0cm} Space-time locations as elements of the space-time domain derived from the combination of the two-dimensional spatial domain (longitude,latitude) and the temporal domain made up of julian dates. \end{adjustwidth}
 \end{itemize}
+\end{itemize}
+
+\begin{itemize}[label={}]
 \item Normality:
 \begin{itemize}[label={}]
 \item $\epsilon_{(lon_i,lat_r,jul_a)}$:
@@ -474,11 +458,6 @@ Vector of differences in longitude, latitude, and Julian date between two locati
 \end{itemize}
 \end{itemize}
 \end{itemize}
-
-\newpage
-
-### Logistic Regression Model
-
 
 \newpage
 
