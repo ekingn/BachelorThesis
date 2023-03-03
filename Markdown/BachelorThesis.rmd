@@ -249,6 +249,72 @@ Classical linear regression involves modeling the model response as the conditio
 
 ## Logistic Regression Models as \textit{Generalized} Linear Models
 
+\justifying
+The classical linear regression model can still generate predictions from the spatial and temporal location of a PE. And with changes to the model structure, it can be transformed into a probability estimation model. Although this logistic regression model does not model the binary variable of classification decisions directly, it generates estimations for the probabilities, that a PE is classified as an EPE. To take the final step to model the binary classification variables finally as a model response that depends on a linear predictor then would only require superimposing a probability-threshold layer onto the predictions of the logistic regression model.\newline
+But to achieve such a generalization of the linear model towards the logistic regression model, firstly the error term is dropped from the right-hand side, so that compared to linear regression, the model response is no longer modeled as dependent on the linear predictor plus an error term, but only on the linear predictor.\newline
+The core acts of the generalization then, which effectively allow to model classification probabilities $p(PE_{(lon_i,lat_r,jul_a)}\:in\:class\:EPE)\:=\:p_{(lon_i,lat_r,jul_a)}$ as dependent on a linear predictor, involve\newline
+\vspace{-0.75cm}
+\begin{itemize}
+\item observations of these probabilities in the data
+\item a logit-function $logit(p_{(lon_i,lat_r,jul_a)}) = \log\left(\frac{p_{(lon_i,lat_r,jul_a)}}{1-p_{(lon_i,lat_r,jul_a)}}\right)$, which projects the observed probabilities onto log-odds(logit) and
+\item a sigmoid function S of the form $S\left(logit(p_{(lon_i,lat_r,jul_a)})\right)=\frac{1}{1 + e^{logit\left(p_{(lon_i,lat_r,jul_a)}\right)}}=p_{(lon_i,lat_r,jul_a)}$, that is the inverse of the logit-function and returns probabilities with log-odds as input
+\end{itemize}
+\vspace{-0.5cm}
+and the concept is as follows:\newline
+It need to be noted first, that the primary concern with modeling a binary response per linear regression had been, that it results in systemic error. The logit-function solves this particular problem by projecting the probability values on a continuous scale from $-\infty$ to $\infty$, such that the resulting continuous log-odds can be modeled as dependent on a linear predictor. Since the log-odds are not the variable of interest however, the logit's inverse function, $S$, is applied on both sides of the model equation. As a consequence, within the logistic regression model, the variable of interest, the probabilities $p_{(lon_i,lat_r,jul_a)}$ are modeled as dependent on the inverse logit function $S$ with the logg-odds as the model argument. And since the log-odds were modeled as dependent on a linear predictor in the first place, the model equation presents itself as 
+
+\begin{center}
+\rule{1\textwidth}{0.4pt}
+\end{center}
+
+\begin{equation}\label{eq:logistic_regression_model_equation}
+\begin{split}
+p(PE_{(lon_i,lat_r,jul_a)} \textrm{ in class EPE}) &=  
+\scalebox{2}{s}\left(\log\left(\frac{p_{(lon_i,lat_r,jul_a)}}{1-p_{(lon_i,lat_r,jul_a)}}\right)\right) \\
+&= \scalebox{2}{s} \left(
+\begin{aligned}
+& \beta_0 + \vphantom{\sum} \beta_1 \textrm{Mean Temperature}_{(lon_i,lat_r,jul_a)} + \beta_2 \textrm{Altitude}_{(lon_i,lat_r,jul_a)} \\
+& + \beta_3 \textrm{Longitude}_{(lon_i,lat_r,jul_a)} + \beta_4 \textrm{Latitude}_{(lon_i,lat_r,jul_a)} \\
+& + \beta_5 \textrm{Julian Date}_{(lon_i,lat_r,jul_a)}
+\end{aligned}
+\right)
+\end{split}
+\end{equation}
+
+\begin{center}
+\rule{1\textwidth}{0.4pt}
+\end{center}
+
+
+\center{\textbf{where}}
+
+\begin{justify}
+\begin{itemize}[label={}]
+\item \scalebox{1.25}{$\beta_0,\beta_1,\beta_2,\beta_3,\beta_4$ are \textit{estimated} per \textit{Maximum Likelihood Estimation}} \\
+\item
+\begin{align}
+\begin{split}
+p_{(lon_i,lat_r,jul_a)} &= \biggl(1+e^{-(\beta_0 + \beta_1MeanTemperature_{(lon_i,lat_r,jul_a)} + \beta_2Altitude_{(lon_i,lat_r,jul_a)} + \beta_3Longitude_{(lon_i,lat_r,jul_a)})} \\
+&\qquad \times e^{-(\beta_4Latitude_{(lon_i,lat_r,jul_a)} + \beta_5JulianDate_{(lon_i,lat_r,jul_a)})}\biggr)^{-1}
+\end{split}
+\end{align} is the model prediction of the probability, that the PE at spatio-temporal location $(lon_i,lat_r,jul_a)$ is an EPE 
+\item 
+\begin{equation}
+P(EPE_{(lon_i,lat_r,jul_a)} | \textbf{x}_{(lon_i,lat_r,jul_a)}, \beta) = p_{(lon_i,lat_r,jul_a)}^{EPE(lon_i,lat_r,jul_a)_{}}(1-p_{(lon_i,lat_r,jul_a)})^{1-EPE_{(lon_i,lat_r,jul_a)}} \\
+\end{equation} is the likelihood of a single classification decision
+\item 
+\begin{equation}
+\begin{aligned}
+L(\beta_0, \beta_1, \beta_2, \beta_3, \beta_4, \beta_5) &= {\displaystyle \prod_{(lon_i,lat_r,jul_a)\in\:SP}} P(EPE_{(lon_i,lat_r,jul_a)} | \textbf{x}_{(lon_i,lat_r,jul_a)}, \beta) \\
+&=  {\displaystyle \prod_{(lon_i,lat_r,jul_a)\in\:SP}} p_{(lon_i,lat_r,jul_a)}^{EPE_{(lon_i,lat_r,jul_a)}}(1-p_{(lon_i,lat_r,jul_a)})^{1-EPE_{(lon_i,lat_r,jul_a)}}
+\end{aligned} 
+\end{equation} is the likelihood function or the likelihood of the entire training data, respectively 
+\end{itemize}
+\end{justify}
+
+\begin{equation}
+\boldsymbol{\beta}_c = \min_{\boldsymbol{\beta}}\sum_{(lon_i,lat_r,jul_a)\in\:SP}w_{(lon_i,lat_r,jul_a),c}\left(EPE_{(lon_i,lat_r,jul_a)}-x_{(lon_i,lat_r,jul_a)}^{T}\beta\right)^2 
+\end{equation} is the estimate of the $\boldsymbol{\beta}$ through $Iteratively\:Reweighted\:Least\:Squares$
 
 ## Generalized \textit{Additive Mixed} Models (GAMM) with a logit link-function and spline-based smooth functions as non-linear special cases of GAMMs
 
@@ -413,77 +479,13 @@ Vector of differences in longitude, latitude, and Julian date between two locati
 
 ### Logistic Regression Model
 
-The classical linear regression model can still generate predictions from the spatial and temporal location of a PE. And with changes to the model structure, it can be transformed into a probability estimation model. Although this logistic regression model does not model the binary variable of classification decisions directly, it generates estimations for the probabilities, that a PE is classified as an EPE. To take the final step to model the binary classification variables finally as a model response that depends on a linear predictor then would only require superimposing a probability-threshold layer onto the predictions of the logistic regression model.\newline
-But to achieve such a generalization of the linear model towards the logistic regression model, firstly the error term is dropped from the right-hand side, so that compared to linear regression, the model response is no longer modeled as dependent on the linear predictor plus an error term, but only on the linear predictor.\newline
-The core acts of the generalization then, which effectively allow to model classification probabilities $p(PE_{(lon_i,lat_r,jul_a)}\:in\:class\:EPE)\:=\:p_{(lon_i,lat_r,jul_a)}$ as dependent on a linear predictor, involve\newline
-\vspace{-0.75cm}
-\begin{itemize}
-\item observations of these probabilities in the data
-\item a logit-function $logit(p_{(lon_i,lat_r,jul_a)}) = \log\left(\frac{p_{(lon_i,lat_r,jul_a)}}{1-p_{(lon_i,lat_r,jul_a)}}\right)$, which projects the observed probabilities onto log-odds(logit) and
-\item a sigmoid function S of the form $S\left(logit(p_{(lon_i,lat_r,jul_a)})\right)=\frac{1}{1 + e^{logit\left(p_{(lon_i,lat_r,jul_a)}\right)}}=p_{(lon_i,lat_r,jul_a)}$, that is the inverse of the logit-function and returns probabilities with log-odds as input
-\end{itemize}
-\vspace{-0.5cm}
-and the concept is as follows:\newline
-It need to be noted first, that the primary concern with modeling a binary response per linear regression had been, that it results in systemic error. The logit-function solves this particular problem by projecting the probability values on a continuous scale from $-\infty$ to $\infty$, such that the resulting continuous log-odds can be modeled as dependent on a linear predictor. Since the log-odds are not the variable of interest however, the logit's inverse function, $S$, is applied on both sides of the model equation. As a consequence, within the logistic regression model, the variable of interest, the probabilities $p_{(lon_i,lat_r,jul_a)}$ are modeled as dependent on the inverse logit function $S$ with the logg-odds as the model argument. And since the log-odds were modeled as dependent on a linear predictor in the first place, the model equation presents itself as 
-
-\begin{center}
-\rule{1\textwidth}{0.4pt}
-\end{center}
-
-\begin{equation}\label{eq:logistic_regression_model_equation}
-\begin{split}
-p(PE_{(lon_i,lat_r,jul_a)} \textrm{ in class EPE}) &=  
-\scalebox{2}{s}\left(\log\left(\frac{p_{(lon_i,lat_r,jul_a)}}{1-p_{(lon_i,lat_r,jul_a)}}\right)\right) \\
-&= \scalebox{2}{s} \left(
-\begin{aligned}
-& \beta_0 + \vphantom{\sum} \beta_1 \textrm{Mean Temperature}_{(lon_i,lat_r,jul_a)} + \beta_2 \textrm{Altitude}_{(lon_i,lat_r,jul_a)} \\
-& + \beta_3 \textrm{Longitude}_{(lon_i,lat_r,jul_a)} + \beta_4 \textrm{Latitude}_{(lon_i,lat_r,jul_a)} \\
-& + \beta_5 \textrm{Julian Date}_{(lon_i,lat_r,jul_a)}
-\end{aligned}
-\right)
-\end{split}
-\end{equation}
-
-\begin{center}
-\rule{1\textwidth}{0.4pt}
-\end{center}
-
-\center{\textbf{where}}
-
-\begin{justify}
-\begin{itemize}[label={}]
-\item \scalebox{1.25}{$\beta_0,\beta_1,\beta_2,\beta_3,\beta_4$ are \textit{estimated} per \textit{Maximum Likelihood Estimation}} \\
-\item
-\begin{align}
-\begin{split}
-p_{(lon_i,lat_r,jul_a)} &= \biggl(1+e^{-(\beta_0 + \beta_1MeanTemperature_{(lon_i,lat_r,jul_a)} + \beta_2Altitude_{(lon_i,lat_r,jul_a)} + \beta_3Longitude_{(lon_i,lat_r,jul_a)})} \\
-&\qquad \times e^{-(\beta_4Latitude_{(lon_i,lat_r,jul_a)} + \beta_5JulianDate_{(lon_i,lat_r,jul_a)})}\biggr)^{-1}
-\end{split}
-\end{align} is the model prediction of the probability, that the PE at spatio-temporal location $(lon_i,lat_r,jul_a)$ is an EPE 
-\item 
-\begin{equation}
-P(EPE_{(lon_i,lat_r,jul_a)} | \textbf{x}_{(lon_i,lat_r,jul_a)}, \beta) = p_{(lon_i,lat_r,jul_a)}^{EPE(lon_i,lat_r,jul_a)_{}}(1-p_{(lon_i,lat_r,jul_a)})^{1-EPE_{(lon_i,lat_r,jul_a)}} \\
-\end{equation} is the likelihood of a single classification decision
-\item 
-\begin{equation}
-\begin{aligned}
-L(\beta_0, \beta_1, \beta_2, \beta_3, \beta_4, \beta_5) &= {\displaystyle \prod_{(lon_i,lat_r,jul_a)\in\:SP}} P(EPE_{(lon_i,lat_r,jul_a)} | \textbf{x}_{(lon_i,lat_r,jul_a)}, \beta) \\
-&=  {\displaystyle \prod_{(lon_i,lat_r,jul_a)\in\:SP}} p_{(lon_i,lat_r,jul_a)}^{EPE_{(lon_i,lat_r,jul_a)}}(1-p_{(lon_i,lat_r,jul_a)})^{1-EPE_{(lon_i,lat_r,jul_a)}}
-\end{aligned} 
-\end{equation} is the likelihood function or the likelihood of the entire training data, respectively 
-\end{itemize}
-\end{justify}
-
-\begin{equation}
-\boldsymbol{\beta}_c = \min_{\boldsymbol{\beta}}\sum_{(lon_i,lat_r,jul_a)\in\:SP}w_{(lon_i,lat_r,jul_a),c}\left(EPE_{(lon_i,lat_r,jul_a)}-x_{(lon_i,lat_r,jul_a)}^{T}\beta\right)^2 
-\end{equation} is the estimate of the $\boldsymbol{\beta}$ through $Iteratively\:Reweighted\:Least\:Squares$
 
 \newpage
 
 ### Generalized Additive Mixed Model 
 
 \begingroup
-\justify
+\justifying
 
 \begin{center}
 \rule{1\textwidth}{0.4pt}
