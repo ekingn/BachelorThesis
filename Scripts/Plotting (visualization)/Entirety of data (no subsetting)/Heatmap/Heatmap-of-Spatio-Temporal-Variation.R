@@ -2,15 +2,15 @@
 
 {
 library(here)
-source(here("Scripts","Session-Related","Packages.R"))
-source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
-source(here("Scripts","Functions","Haversine-Function-Arguments-are-Columns.R"))
-source(here("Scripts","Functions","Haversine-Function.R"))
-source(here("Scripts","Data-Manipulation","Training-Data","Spatial-Means-Each-Julian-Date.R"))
-source(here("Scripts","Data-Manipulation","Training-Data","Spatial-Distances.R"))
-source(here("Scripts","Data-Manipulation","Training-Data","Intervals-of-Spatial-Distances.R"))
-source(here("Scripts","Data-Manipulation","Training-Data","Temporal-Distances.R"))
-source(here("Scripts","Data-Manipulation","Training-Data","Intervals-of-Temporal-Distances.R"))
+# source(here("Scripts","Session-Related","Packages.R"))
+# source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
+# source(here("Scripts","Functions","Haversine-Function-Arguments-are-Columns.R"))
+# source(here("Scripts","Functions","Haversine-Function.R"))
+# source(here("Scripts","Data-Manipulation","Training-Data","Spatial-Means-Each-Julian-Date.R"))
+# source(here("Scripts","Data-Manipulation","Training-Data","Spatial-Distances.R"))
+# source(here("Scripts","Data-Manipulation","Training-Data","Intervals-of-Spatial-Distances.R"))
+# source(here("Scripts","Data-Manipulation","Training-Data","Temporal-Distances.R"))
+# source(here("Scripts","Data-Manipulation","Training-Data","Intervals-of-Temporal-Distances.R"))
 source(here("Scripts","Data-Manipulation","Training-Data","Calculating-Spatiotemporal-Covariances.R"))
 }
 
@@ -19,12 +19,20 @@ source(here("Scripts","Data-Manipulation","Training-Data","Calculating-Spatiotem
 # varies as a consequence of increasing spatial and temporal distances between the
 # paired observations
 
+Spatial_Intervals_Factors <-
+  
+  Intervals_of_Spatial_Distance %>% 
+  
+  select(spatial_interval) %>% 
+  
+  as_factor()
+
 Heatmap_Spatio_Temporal_Covariance <- 
   
   Paired_Precipitation_Heights %>%
   
   filter(index_dspatial %in% 1:10,
-         index_dtemporal %in% 1:6) %>% 
+         index_dtemporal %in% 1:10) %>% 
   
   ggplot(aes(x = factor(spatial_interval), 
              y = factor(temporal_interval))) +
@@ -39,23 +47,26 @@ Heatmap_Spatio_Temporal_Covariance <-
        y = "Interval of Distances in Julian Dates", 
        fill = paste("Spatio-Temporal\n","Covariability")) +
   
-  ggtitle("Variation in the Spatio-Temporal Covariability") + 
-  
-  theme(plot.title = element_text(size = 18,
+  theme(plot.title = element_text(size = 14,
                                   hjust = 0.5,
-                                  face = "bold"),
+                                  face = "bold",
+                                  margin = margin(b = 15)),
         axis.ticks.x = element_blank(),
         axis.ticks.y = element_blank(),
         axis.text.x = element_text(size = 12,
-                                   face = "bold"),
+                                   face = "bold",
+                                   angle = 60,
+                                   margin = margin(t = 5)),
         axis.text.y = element_text(size = 12,
                                    face = "bold"),
         axis.title.x = element_text(size = 14,
                                     face = "bold",
-                                    vjust = -3),
+                                    vjust = -3,
+                                    margin = margin(t = -2)),
         axis.title.y = element_text(size = 14,
                                     face = "bold",
-                                    vjust = 3),
+                                    vjust = 3,
+                                    margin = margin(r = 5)),
         panel.border = element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
@@ -71,10 +82,4 @@ ggsave(plot = Heatmap_Spatio_Temporal_Covariance,
        width = 4,
        height = 2)
 
-Spatial_Intervals_Factors <-
-  
-  Intervals_of_Spatial_Distance %>% 
-  
-  select(spatial_interval) %>% 
-  
-  as_factor()
+

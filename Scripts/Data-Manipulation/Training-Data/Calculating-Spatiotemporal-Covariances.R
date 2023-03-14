@@ -66,7 +66,7 @@ Paired_Precipitation_Heights <-
   
   filter(year %in% 2012, 
          month %in% 1,
-         day %in% 1:10) %>% 
+         day %in% 1:8) %>% 
   
   select(index, 
          days_since_earliest_observation, 

@@ -1,10 +1,11 @@
 # If this code is to be executed isolatedly, as a prerequisite de-comment the following code and execute it:
 
+{
 #library(here)
 #source(here("Scripts","Session-Related","Packages.R"))
 #source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
 #source(here("Scripts","Functions","Haversine-Function.R"))
-
+}
 
 # The purpose of this script is twofold:
 # - Compute the spatial distances in kilometre between all spatial combinations weather stations 

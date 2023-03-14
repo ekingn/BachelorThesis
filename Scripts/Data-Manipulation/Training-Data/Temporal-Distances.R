@@ -1,7 +1,7 @@
 {
-  library(here)
-  source(here("Scripts","Session-Related","Packages.R"))
-  source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
+ #library(here)
+ #source(here("Scripts","Session-Related","Packages.R"))
+ #source(here("Scripts","Data-Manipulation","Training-Data","Training-Data.R"))
 }
 
 Distinct_Julian_Dates <-
@@ -10,7 +10,7 @@ Distinct_Julian_Dates <-
   
   filter(year %in% 2012,
          month %in% 1,
-         day %in% 1:10) %>% 
+         day %in% 1:7) %>% 
 
   distinct(days_since_earliest_observation) %>%
 
@@ -46,9 +46,10 @@ Intervals_of_Temporal_Distance <-
   mutate(interval = cut(temporal_difference,
                         breaks = seq(min(temporal_difference),
                                      max(temporal_difference),
-                                     length.out = 10),
+                                     length.out = 7),
                         include.lowest = TRUE,
                         right = FALSE,
+                        left = TRUE,
                         dig.lab = 5)) %>%
 
   group_by(interval) %>%

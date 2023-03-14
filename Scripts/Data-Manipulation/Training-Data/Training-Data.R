@@ -159,7 +159,7 @@ Range_of_Temporal_Coverage <-
     ungroup()
 }
 
-# Create a new variable that indicates the occurence of an EPE based on the arbitrary boundaries from above and the data on precipitation heigt
+# Create a new variable that indicates the true classification decisions
 {
   # Create a column whose values indicate, whether an observed precipitation event is extreme or not 
   Weather_Data_Daily_Resolution <- Weather_Data_Daily_Resolution %>% 
@@ -244,6 +244,11 @@ Weather_Data_Daily_Resolution <-
          rain,
          monthly_mean_precipitation,
          EPE,
-         everything())
+         everything()) %>% 
+  
+  arrange(index,
+          year,
+          month,
+          day)
 
 

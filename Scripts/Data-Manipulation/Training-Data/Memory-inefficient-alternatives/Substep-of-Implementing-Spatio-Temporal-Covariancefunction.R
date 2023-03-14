@@ -1,5 +1,5 @@
 # This is inefficient, because it performs a cross join and then subsets the data afterwords, which results in a 
-# large intermediate demand on the working memory intermediate
+# large intermediate demand on the working memory 
 
 Paired_Precipitation_Heights <-
 
