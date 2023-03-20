@@ -47,7 +47,7 @@ haversine_distance_two_points <- function(lat1, long1, lat2, long2) {
 }
 
 # Helper function to convert degrees to radians
-deg2rad <- function(deg) {
+degree_2_radians <- function(deg) {
   return(deg * pi / 180)
 }
 

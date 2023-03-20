@@ -62,7 +62,7 @@ Latitudinal_Means_of_Precipitation <-
                                     to = 8,
                                     by = 0.5)))
 
-save_plot(filename = here("Output","JPG's","Precipitation-Means","Latitudinal-Means-of-Precipitation.JPG"),
+save_plot(filename = here("Output","JPGs","Precipitation-Means","Latitudinal-Means-of-Precipitation.JPG"),
           plot = Latitudinal_Means_of_Precipitation)
 
 
@@ -104,7 +104,7 @@ Longitudinal_Means_of_Precipitation <-
                                     to = 8,
                                     by = 0.5)))
   
-save_plot(filename = here("Output","JPG's","Precipitation-Means","Longitudinal-Means-of-Precipitation.JPG"),
+save_plot(filename = here("Output","JPGs","Precipitation-Means","Longitudinal-Means-of-Precipitation.JPG"),
           plot = Longitudinal_Means_of_Precipitation)
 
 ## Compute and plot the empirical temporal means: The average precipitation height at each calendar date (unique day).
@@ -160,7 +160,7 @@ Monthly_Means_Plot = ggplot(Monthly_Means) +
             nudge_y = 0.03)
 
 
-save_plot(file = here("Output","JPG's","Precipitation-Means","Monthly-Mean-Precipitation.JPG"),
+save_plot(file = here("Output","JPGs","Precipitation-Means","Monthly-Mean-Precipitation.JPG"),
           plot = Monthly_Means_Plot)
 
 
@@ -215,7 +215,7 @@ Annual_Means_Plot <-
             nudge_y = 0.03) 
 
   
-save_plot(file = here("Output","JPG's","Precipitation-Means","Annual-Mean-Precipitation.JPG"),
+save_plot(file = here("Output","JPGs","Precipitation-Means","Annual-Mean-Precipitation.JPG"),
           plot = Annual_Means_Plot)
 
 Seasonal_Means <-
@@ -273,7 +273,7 @@ Seasonal_Means_Plot <-
             nudge_y = 0.03) 
 
 
-save_plot(file = here("Output","JPG's","Precipitation-Means","Seasonal-Mean-Precipitation.JPG"),
+save_plot(file = here("Output","JPGs","Precipitation-Means","Seasonal-Mean-Precipitation.JPG"),
           plot = Seasonal_Means_Plot)
 
 

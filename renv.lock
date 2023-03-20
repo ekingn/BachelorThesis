@@ -1014,6 +1014,18 @@
         "withr"
       ]
     },
+    "ggplotify": {
+      "Package": "ggplotify",
+      "Version": "0.1.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "acbcedf783cdb8710168aa0edba42ac0",
+      "Requirements": [
+        "ggplot2",
+        "gridGraphics",
+        "yulab.utils"
+      ]
+    },
     "ggrepel": {
       "Package": "ggrepel",
       "Version": "0.9.2",
@@ -1130,6 +1142,14 @@
       "Requirements": [
         "gtable"
       ]
+    },
+    "gridGraphics": {
+      "Package": "gridGraphics",
+      "Version": "0.5-1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "5b79228594f02385d4df4979284879ae",
+      "Requirements": []
     },
     "gsl": {
       "Package": "gsl",
@@ -2249,8 +2269,8 @@
       "RemoteRepo": "rnaturalearthhires",
       "RemoteUsername": "ropensci",
       "RemoteRef": "HEAD",
-      "RemoteSha": "ad7cae38fbb9a15b2af97049bc4f7da09d578d70",
-      "Hash": "217637a0cbb3564becae674d3086099a",
+      "RemoteSha": "c3785a8c44738de6ae8f797080c0a337ebed929d",
+      "Hash": "5aec5e55d213b1534ad7c90305ab9a50",
       "Requirements": [
         "sp"
       ]
@@ -3046,6 +3066,14 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "9b570515751dcbae610f29885e025b41",
+      "Requirements": []
+    },
+    "yulab.utils": {
+      "Package": "yulab.utils",
+      "Version": "0.0.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "0d0b7cc6da5efc21f07f6b8d966a9cc1",
       "Requirements": []
     },
     "zip": {
